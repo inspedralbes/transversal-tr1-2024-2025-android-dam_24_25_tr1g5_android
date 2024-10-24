@@ -1,3 +1,5 @@
+package com.example.apptakeaway
+
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

@@ -1,3 +1,5 @@
+package com.example.apptakeaway
+
 import android.content.Context
 import com.example.apptakeaway.model.Product
 import com.google.gson.Gson

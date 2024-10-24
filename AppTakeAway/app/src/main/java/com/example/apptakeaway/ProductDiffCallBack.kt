@@ -1,3 +1,5 @@
+package com.example.apptakeaway
+
 import androidx.recyclerview.widget.DiffUtil
 import com.example.apptakeaway.model.Product
 

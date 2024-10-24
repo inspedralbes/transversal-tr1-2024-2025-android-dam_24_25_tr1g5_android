@@ -1,6 +1,5 @@
 package com.example.apptakeaway.adapter
 
-import ProductDiffCallback
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
