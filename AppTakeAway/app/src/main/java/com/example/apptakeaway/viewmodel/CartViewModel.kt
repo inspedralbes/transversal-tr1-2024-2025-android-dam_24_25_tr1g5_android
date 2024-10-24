@@ -7,13 +7,11 @@ import com.example.apptakeaway.model.CartItem
 import com.example.apptakeaway.model.Product
 
 class CartViewModel : ViewModel() {
-    private val _cartItems = MutableLiveData<List<CartItem>>()
+    private val _cartItems = MutableLiveData<List<CartItem>>() // Cambiado a List<CartItem>
     val cartItems: LiveData<List<CartItem>> get() = _cartItems
 
     init {
-        if (_cartItems.value == null) {
-            _cartItems.value = emptyList()
-        }
+        _cartItems.value = emptyList() // Inicializa la lista del carrito como vacía
     }
 
     fun addToCart(product: Product) {
@@ -21,12 +19,12 @@ class CartViewModel : ViewModel() {
         val existingItem = currentList.find { it.product.id == product.id }
 
         if (existingItem != null) {
-            existingItem.quantity++
+            existingItem.quantity++ // Incrementa la cantidad si ya existe
         } else {
-            currentList.add(CartItem(product, 1))
+            currentList.add(CartItem(product, 1)) // Añade un nuevo item al carrito
         }
 
-        _cartItems.value = currentList
+        _cartItems.value = currentList // Notifica a los observadores
     }
 
     fun updateItemQuantity(cartItem: CartItem, newQuantity: Int) {
@@ -39,7 +37,7 @@ class CartViewModel : ViewModel() {
             } else {
                 currentList.remove(itemToUpdate)
             }
-            _cartItems.value = currentList
+            _cartItems.value = currentList // Notifica a los observadores
         }
     }
 
@@ -49,11 +47,11 @@ class CartViewModel : ViewModel() {
 
         if (itemToUpdate != null) {
             itemToUpdate.isActive = isActive
-            _cartItems.value = currentList
+            _cartItems.value = currentList // Notifica a los observadores
         }
     }
 
     fun getCartTotal(): Double {
-        return _cartItems.value?.filter { it.isActive }?.sumOf { it.product.price * it.quantity } ?: 0.0
+        return _cartItems.value?.sumOf { it.product.price.toDouble() * it.quantity } ?: 0.0
     }
 }

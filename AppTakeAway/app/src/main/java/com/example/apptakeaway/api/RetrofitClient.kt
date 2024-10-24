@@ -1,41 +1,19 @@
 package com.example.apptakeaway.api
 
-import android.content.Context
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "file:/"
+    private const val BASE_URL = "http://10.0.2.2:3000/"
 
-    fun create(context: Context): ApiService {
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val originalRequest = chain.request()
-                val url = originalRequest.url.toString()
-                val newUrl = url.replace(BASE_URL, "")
-                val newRequest = originalRequest.newBuilder()
-                    .url(newUrl)
-                    .build()
-                val response = chain.proceed(newRequest)
-                response.newBuilder()
-                    .body(response.body?.let {
-                        context.assets.open(newUrl).use { inputStream ->
-                            okhttp3.ResponseBody.create(
-                                response.body?.contentType(),
-                                inputStream.readBytes()
-                            )
-                        }
-                    })
-                    .build()
-            }
-            .build()
-
-        return Retrofit.Builder()
+    private val retrofit by lazy {
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ApiService::class.java)
+    }
+
+    val apiService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
 }

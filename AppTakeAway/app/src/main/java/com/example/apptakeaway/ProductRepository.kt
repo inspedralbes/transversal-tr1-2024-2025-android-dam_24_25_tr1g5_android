@@ -1,14 +1,27 @@
-package com.example.apptakeaway
-
-import android.content.Context
+import com.example.apptakeaway.api.RetrofitClient
 import com.example.apptakeaway.model.Product
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class ProductRepository(private val context: Context) {
-    fun getProducts(): List<Product> {
-        val jsonString = context.assets.open("products.json").bufferedReader().use { it.readText() }
-        val type = object : com.google.gson.reflect.TypeToken<List<Product>>() {}.type
-        return Gson().fromJson(jsonString, type)
+class ProductRepository {
+    private val apiService = RetrofitClient.apiService
+
+    fun getProducts(onSuccess: (List<Product>) -> Unit, onError: (String) -> Unit) {
+        apiService.getProducts().enqueue(object : Callback<List<Product>> {
+            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { products ->
+                        onSuccess(products)
+                    } ?: onError("Respuesta vacía del servidor")
+                } else {
+                    onError("Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                onError("Error de red: ${t.message}")
+            }
+        })
     }
 }

@@ -7,15 +7,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.apptakeaway.R
 import com.example.apptakeaway.model.Product
 
 class ProductAdapter(
-    private var products: List<Product>,
-    private val onAddToCart: (Product) -> Unit
-) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+    private val onAddToCart: (Product) -> Unit // Callback para añadir al carrito
+) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.productImage)
@@ -31,24 +31,28 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = products[position]
+        val product = getItem(position)
         holder.nameTextView.text = product.name
         holder.priceTextView.text = "$${product.price}"
 
-        // Cargar la imagen del producto usando Glide o Picasso
         Glide.with(holder.imageView.context)
             .load(product.imagePath)
+            .error(android.R.drawable.ic_menu_gallery) // Placeholder en caso de error
             .into(holder.imageView)
 
         holder.addButton.setOnClickListener {
-            onAddToCart(product)
+            onAddToCart(product) // Llama al callback para añadir al carrito
         }
     }
+}
 
-    override fun getItemCount() = products.size
+// Implementación de DiffUtil para optimizar las actualizaciones de la lista
+class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
+    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem.id == newItem.id // Asumiendo que 'id' es único para cada producto
+    }
 
-    fun updateProducts(newProducts: List<Product>) {
-        products = newProducts
-        notifyDataSetChanged()
+    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem == newItem // Compara el contenido completo del objeto
     }
 }

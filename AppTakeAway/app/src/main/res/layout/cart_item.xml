@@ -45,7 +45,7 @@
             android:id="@+id/decrementButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="&lt;"
+            android:text="@string/decrement"
             android:textSize="18sp" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:id="@+id/incrementButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="&gt;"
+            android:text="@string/increment"
             android:textSize="18sp" />
     </LinearLayout>
 

@@ -10,5 +10,5 @@ data class Product(
     val imagePath: String,
     val colors: String,
     val stock: Int,
-    val activated: Boolean
+    val activated: Int
 )
