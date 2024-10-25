@@ -1,5 +1,6 @@
 package com.example.apptakeaway.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,11 +8,11 @@ import com.example.apptakeaway.model.CartItem
 import com.example.apptakeaway.model.Product
 
 class CartViewModel : ViewModel() {
-    private val _cartItems = MutableLiveData<List<CartItem>>() // Cambiado a List<CartItem>
-    val cartItems: LiveData<List<CartItem>> get() = _cartItems
+    private val _cartItems = MutableLiveData<List<CartItem>>()
+    val cartItems: LiveData<List<CartItem>> = _cartItems
 
     init {
-        _cartItems.value = emptyList() // Inicializa la lista del carrito como vacía
+        _cartItems.value = emptyList()
     }
 
     fun addToCart(product: Product) {
@@ -19,12 +20,13 @@ class CartViewModel : ViewModel() {
         val existingItem = currentList.find { it.product.id == product.id }
 
         if (existingItem != null) {
-            existingItem.quantity++ // Incrementa la cantidad si ya existe
+            existingItem.quantity++
         } else {
-            currentList.add(CartItem(product, 1)) // Añade un nuevo item al carrito
+            currentList.add(CartItem(product, 1))
         }
 
-        _cartItems.value = currentList // Notifica a los observadores
+        _cartItems.value = currentList.toList()
+        Log.d("CartViewModel", "Producto añadido/actualizado: ${product.name}, Cantidad: ${existingItem?.quantity ?: 1}")
     }
 
     fun updateItemQuantity(cartItem: CartItem, newQuantity: Int) {
@@ -32,23 +34,17 @@ class CartViewModel : ViewModel() {
         val itemToUpdate = currentList.find { it.product.id == cartItem.product.id }
 
         if (itemToUpdate != null) {
-            if (newQuantity > 0) {
-                itemToUpdate.quantity = newQuantity
-            } else {
-                currentList.remove(itemToUpdate)
-            }
-            _cartItems.value = currentList // Notifica a los observadores
+            itemToUpdate.quantity = newQuantity
+            _cartItems.value = currentList.toList()
+            Log.d("CartViewModel", "Cantidad actualizada para ${cartItem.product.name}: $newQuantity")
         }
     }
 
-    fun updateItemActiveState(cartItem: CartItem, isActive: Boolean) {
+    fun removeFromCart(cartItem: CartItem) {
         val currentList = _cartItems.value?.toMutableList() ?: mutableListOf()
-        val itemToUpdate = currentList.find { it.product.id == cartItem.product.id }
-
-        if (itemToUpdate != null) {
-            itemToUpdate.isActive = isActive
-            _cartItems.value = currentList // Notifica a los observadores
-        }
+        currentList.remove(cartItem)
+        _cartItems.value = currentList.toList()
+        Log.d("CartViewModel", "Producto eliminado del carrito: ${cartItem.product.name}")
     }
 
     fun getCartTotal(): Double {

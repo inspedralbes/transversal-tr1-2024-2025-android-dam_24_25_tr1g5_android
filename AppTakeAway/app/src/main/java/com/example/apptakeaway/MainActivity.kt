@@ -1,7 +1,6 @@
 package com.example.apptakeaway
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,7 +9,6 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apptakeaway.adapter.ProductAdapter
@@ -28,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
+        productViewModel = ProductViewModel()
+        cartViewModel = (application as AppTakeAwayApplication).cartViewModel
 
         setupRecyclerView()
         setupSearchView()
@@ -59,8 +57,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         recyclerView.adapter = productAdapter
-
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(2, 16, true))
     }
 
     private fun setupSearchView() {
@@ -104,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeCart() {
         cartViewModel.cartItems.observe(this) { cartItems ->
-            updateCartBadge(cartItems.sumOf { it.quantity }) // Actualiza la insignia del carrito con la cantidad total
+            updateCartBadge(cartItems.sumOf { it.quantity })
             Log.d("MainActivity", "Carrito actualizado: ${cartItems.size} items")
         }
     }
@@ -113,30 +109,6 @@ class MainActivity : AppCompatActivity() {
         val cartButton = findViewById<ImageButton>(R.id.cartButton)
         if (itemCount > 0) {
             Toast.makeText(this, "Items en el carrito: $itemCount", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int, private val includeEdge: Boolean) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val position = parent.getChildAdapterPosition(view)
-            val column = position % spanCount
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount
-                outRect.right = (column + 1) * spacing / spanCount
-
-                if (position < spanCount) {
-                    outRect.top = spacing
-                }
-                outRect.bottom = spacing
-            } else {
-                outRect.left = column * spacing / spanCount
-                outRect.right = spacing - (column + 1) * spacing / spanCount
-
-                if (position >= spanCount) {
-                    outRect.top = spacing
-                }
-            }
         }
     }
 }
