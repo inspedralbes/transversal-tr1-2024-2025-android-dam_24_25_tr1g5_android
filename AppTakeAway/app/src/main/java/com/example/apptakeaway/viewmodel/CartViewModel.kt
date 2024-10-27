@@ -1,53 +1,96 @@
-package com.example.apptakeaway.viewmodel
+package com.example.apptakeaway.viewmodel // Paquete donde se encuentra el ViewModel del carrito
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.apptakeaway.model.CartItem
-import com.example.apptakeaway.model.Product
+/*
+ * La clase `CartViewModel` es responsable de manejar la lógica relacionada con el carrito de compras
+ * en la aplicación. Extiende `ViewModel` para preservar los datos durante cambios de configuración,
+ * como la rotación de pantalla. Contiene listas de productos disponibles y de ítems en el carrito,
+ * así como métodos para añadir, actualizar y eliminar productos en el carrito,
+ * así como calcular el total del carrito.
+ */
 
+import android.util.Log // Importar la clase Log para registros (aunque no se usa aquí)
+import androidx.lifecycle.LiveData // Clase para representar datos que pueden ser observados
+import androidx.lifecycle.MutableLiveData // Clase para representar datos observables que pueden ser modificados
+import androidx.lifecycle.ViewModel // Clase base para los ViewModels
+import com.example.apptakeaway.model.CartItem // Modelo para los ítems del carrito
+import com.example.apptakeaway.model.Product // Modelo para los productos
+
+// Clase ViewModel que maneja la lógica del carrito de compras
 class CartViewModel : ViewModel() {
-    private val _cartItems = MutableLiveData<List<CartItem>>()
-    val cartItems: LiveData<List<CartItem>> = _cartItems
 
+    // Lista de productos (disponibles en la tienda)
+    private val _products = MutableLiveData<List<Product>>() // MutableLiveData para productos
+    val products: LiveData<List<Product>> = _products // LiveData para observación externa
+
+    // Lista de ítems en el carrito (independiente de los productos de la tienda)
+    private val _cartItems = MutableLiveData<List<CartItem>>() // MutableLiveData para ítems del carrito
+    val cartItems: LiveData<List<CartItem>> = _cartItems // LiveData para observación externa
+
+    // Inicializa las listas de productos y del carrito
     init {
-        _cartItems.value = emptyList()
+        _products.value = emptyList() // Inicializa productos vacíos o añade productos de prueba aquí
+        _cartItems.value = emptyList() // Inicializa el carrito vacío
     }
 
+    // Método para establecer productos en la tienda (puedes reemplazarlo por una llamada de API)
+    fun setProducts(productList: List<Product>) {
+        _products.value = productList // Actualiza la lista de productos
+    }
+
+    // Método para añadir un producto al carrito
     fun addToCart(product: Product) {
-        val currentList = _cartItems.value?.toMutableList() ?: mutableListOf()
-        val existingItem = currentList.find { it.product.id == product.id }
+        // Obtiene la lista actual del carrito o crea una nueva si es nula
+        val currentCart = _cartItems.value?.toMutableList() ?: mutableListOf()
+        // Busca si el producto ya está en el carrito
+        val existingItem = currentCart.find { it.product.id == product.id }
 
         if (existingItem != null) {
+            // Si existe, incrementa la cantidad
             existingItem.quantity++
         } else {
-            currentList.add(CartItem(product, 1))
+            // Si no existe, añade un nuevo CartItem
+            currentCart.add(CartItem(product, 1))
         }
 
-        _cartItems.value = currentList.toList()
-        Log.d("CartViewModel", "Producto añadido/actualizado: ${product.name}, Cantidad: ${existingItem?.quantity ?: 1}")
+        // Notifica los cambios en el carrito
+        _cartItems.value = currentCart.toList()
     }
 
+    // Método para actualizar la cantidad de un ítem en el carrito
     fun updateItemQuantity(cartItem: CartItem, newQuantity: Int) {
+        // Obtiene la lista actual del carrito o crea una nueva si es nula
         val currentList = _cartItems.value?.toMutableList() ?: mutableListOf()
+        // Busca el ítem que se quiere actualizar
         val itemToUpdate = currentList.find { it.product.id == cartItem.product.id }
 
         if (itemToUpdate != null) {
-            itemToUpdate.quantity = newQuantity
+            if (newQuantity > 0) {
+                // Actualiza la cantidad si es mayor que 0
+                itemToUpdate.quantity = newQuantity
+            } else {
+                // Remueve el ítem si la cantidad es 0
+                currentList.remove(itemToUpdate)
+            }
+            // Fuerza un reset temporal de la lista del carrito
+            _cartItems.value = emptyList()
+            // Notifica los cambios en el carrito
             _cartItems.value = currentList.toList()
-            Log.d("CartViewModel", "Cantidad actualizada para ${cartItem.product.name}: $newQuantity")
         }
     }
 
+    // Método para eliminar un ítem del carrito
     fun removeFromCart(cartItem: CartItem) {
-        val currentList = _cartItems.value?.toMutableList() ?: mutableListOf()
-        currentList.remove(cartItem)
-        _cartItems.value = currentList.toList()
-        Log.d("CartViewModel", "Producto eliminado del carrito: ${cartItem.product.name}")
+        // Obtiene la lista actual del carrito o crea una nueva si es nula
+        val currentCart = _cartItems.value?.toMutableList() ?: mutableListOf()
+        // Remueve el ítem especificado
+        currentCart.remove(cartItem)
+        // Notifica los cambios en el carrito
+        _cartItems.value = currentCart.toList()
     }
 
+    // Método para calcular el total del carrito
     fun getCartTotal(): Double {
+        // Calcula la suma total de los productos en el carrito
         return _cartItems.value?.sumOf { it.product.price.toDouble() * it.quantity } ?: 0.0
     }
 }

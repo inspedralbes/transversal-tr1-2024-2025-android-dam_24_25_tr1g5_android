@@ -75,6 +75,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation(libs.androidx.cardview)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.ui.test.android)
+    implementation(libs.androidx.ui.test.android)
     kapt("com.github.bumptech.glide:compiler:4.12.0") 
 
     // AndroidX dependencies
