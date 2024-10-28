@@ -43,14 +43,19 @@ class CartActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         val recyclerView: RecyclerView = findViewById(R.id.cartRecyclerView) // Encuentra el RecyclerView en el layout
         recyclerView.layoutManager = LinearLayoutManager(this) // Establece el gestor de diseño para una lista vertical
-        // Inicializa el adaptador del carrito
-        cartAdapter = CartAdapter { item, newQuantity ->
-            if (newQuantity > 0) {
-                cartViewModel.updateItemQuantity(item, newQuantity) // Actualiza la cantidad del item
-            } else {
-                showRemoveItemDialog(item) // Muestra un diálogo de confirmación para eliminar el item
-            }
-        }
+
+        // Inicializa el adaptador del carrito, con manejadores para cambios en cantidad y selección
+        cartAdapter = CartAdapter(
+            onQuantityChanged = { item, newQuantity ->
+                if (newQuantity > 0) {
+                    cartViewModel.updateItemQuantity(item, newQuantity) // Actualiza la cantidad del item
+                } else {
+                    showRemoveItemDialog(item) // Muestra un diálogo de confirmación para eliminar el item
+                }
+            },
+            onSelectionChanged = { cartViewModel.updateItemSelection(it) } // Llama a un método para actualizar la selección
+        )
+
         recyclerView.adapter = cartAdapter // Establece el adaptador en el RecyclerView
     }
 
@@ -60,7 +65,11 @@ class CartActivity : AppCompatActivity() {
             finish() // Cierra la actividad actual y vuelve a la anterior
         }
     }
-
+    private fun setupPayButton() {
+        findViewById<ImageButton>(R.id.payButton).setOnClickListener {
+            finish() // Cierra la actividad actual y vuelve a la anterior
+        }
+    }
 
     // Método para observar los elementos del carrito
     private fun observeCartItems() {
@@ -81,8 +90,8 @@ class CartActivity : AppCompatActivity() {
     // Método para mostrar un diálogo de confirmación para eliminar un item
     private fun showRemoveItemDialog(item: CartItem) {
         AlertDialog.Builder(this) // Crea un constructor para un diálogo de alerta
-            .setTitle("Eliminar producte") // Título del diálogo
-            .setMessage("¿Estàs segur de què vols eliminar ${item.product.name} del carrito?") // Mensaje
+            .setTitle("Eliminar producto") // Título del diálogo
+            .setMessage("¿Estás seguro de que deseas eliminar ${item.product.name} del carrito?") // Mensaje
             .setPositiveButton("Sí") { _, _ ->
                 cartViewModel.removeFromCart(item) // Elimina el item del carrito si se confirma
             }

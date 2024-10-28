@@ -26,7 +26,8 @@ import com.example.apptakeaway.model.CartItem // Modelo de los elementos del car
 
 // Clase que representa el adaptador del carrito
 class CartAdapter(
-    private val onQuantityChanged: (CartItem, Int) -> Unit // Función para manejar cambios de cantidad
+    private val onQuantityChanged: (CartItem, Int) -> Unit ,// Función para manejar cambios de cantidad
+    private val onSelectionChanged: (CartItem) -> Unit
 ) : ListAdapter<CartItem, CartAdapter.ViewHolder>(CartDiffCallback()) { // Hereda de ListAdapter
 
     // Método que crea el ViewHolder
@@ -77,14 +78,15 @@ class CartAdapter(
 
             // Configuración del CheckBox, si se requiere lógica adicional
             checkBox.setOnCheckedChangeListener { _, isChecked ->
-                // Al cambiar el estado del CheckBox
-                val item = getItem(adapterPosition) // Obtener el ítem actual
-                item.isSelected = isChecked // Actualizar el estado del ítem
+                val item = getItem(adapterPosition)
+                item.isSelected = isChecked
+                onSelectionChanged(item) // Notifica al ViewModel el cambio
             }
         }
 
         // Método para vincular el ítem a las vistas del ViewHolder
         fun bind(item: CartItem) {
+            checkBox.isChecked = item.isSelected
             productName.text = item.product.name // Asignar el nombre del producto
             productPrice.text = String.format("$%.2f", item.product.price.toDouble()) // Formatear el precio
             updateQuantityDisplay(item.quantity) // Actualizar la visualización de la cantidad

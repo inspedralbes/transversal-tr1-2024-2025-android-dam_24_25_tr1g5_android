@@ -90,7 +90,20 @@ class CartViewModel : ViewModel() {
 
     // Método para calcular el total del carrito
     fun getCartTotal(): Double {
-        // Calcula la suma total de los productos en el carrito
-        return _cartItems.value?.sumOf { it.product.price.toDouble() * it.quantity } ?: 0.0
+        // Solo suma el precio de los productos seleccionados
+        return _cartItems.value
+            ?.filter { it.isSelected }  // Filtra solo los elementos seleccionados
+            ?.sumOf { it.product.price.toDouble() * it.quantity } ?: 0.0
+    }
+
+    fun updateItemSelection(cartItem: CartItem) {
+        // Actualiza el estado del ítem seleccionado en la lista del carrito
+        _cartItems.value = _cartItems.value?.map {
+            if (it.product.id == cartItem.product.id) {
+                it.copy(isSelected = cartItem.isSelected)
+            } else it
+        }
+        // Actualiza la lista de observadores del carrito
+        _cartItems.value = _cartItems.value
     }
 }
