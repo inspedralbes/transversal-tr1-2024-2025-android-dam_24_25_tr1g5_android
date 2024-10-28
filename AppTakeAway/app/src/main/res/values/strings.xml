@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AppTakeAway</string>
+    <string name="increment"><![CDATA[>]]></string>
+    <string name="decrement"><![CDATA[<]]></string>
 </resources>

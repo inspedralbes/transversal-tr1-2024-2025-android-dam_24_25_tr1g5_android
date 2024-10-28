@@ -1,47 +1,133 @@
-package com.example.apptakeaway
+package com.example.apptakeaway // Paquete donde se encuentra la clase MainActivity
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.apptakeaway.ui.theme.AppTakeAwayTheme
+/*
+ * La clase `MainActivity` es la actividad principal de la aplicación, que presenta
+ * una lista de productos disponibles en un formato de cuadrícula. Permite a los usuarios
+ * buscar productos, añadirlos a un carrito y navegar a la pantalla del carrito.
+ * Observa cambios en el ViewModel de productos y el ViewModel del carrito,
+ * actualizando la interfaz de usuario en consecuencia.
+ */
 
-class MainActivity : ComponentActivity() {
+import android.content.Intent // Importa Intent para navegar entre actividades
+import android.os.Bundle // Importa Bundle para pasar datos entre actividades
+import android.util.Log // Importa Log para registrar información de depuración
+import android.view.View // Importa View para manejar vistas
+import android.widget.ImageButton // Importa ImageButton para manejar botones de imagen
+import android.widget.ProgressBar // Importa ProgressBar para mostrar carga
+import android.widget.Toast // Importa Toast para mostrar mensajes breves
+import androidx.appcompat.app.AppCompatActivity // Importa AppCompatActivity para la actividad base
+import androidx.appcompat.widget.SearchView // Importa SearchView para búsqueda de productos
+import androidx.recyclerview.widget.GridLayoutManager // Importa GridLayoutManager para el diseño en cuadrícula
+import androidx.recyclerview.widget.RecyclerView // Importa RecyclerView para listas de elementos
+import com.example.apptakeaway.adapter.ProductAdapter // Importa el adaptador para productos
+import com.example.apptakeaway.viewmodel.CartViewModel // Importa el ViewModel del carrito
+import com.example.apptakeaway.viewmodel.ProductViewModel // Importa el ViewModel de productos
+
+class MainActivity : AppCompatActivity() { // Clase principal de la actividad
+    private lateinit var recyclerView: RecyclerView // Vista para la lista de productos
+    private lateinit var productAdapter: ProductAdapter // Adaptador para manejar los productos
+    private lateinit var productViewModel: ProductViewModel // ViewModel para manejar la lógica de productos
+    private lateinit var cartViewModel: CartViewModel // ViewModel para manejar el carrito
+    private lateinit var progressBar: ProgressBar // Barra de progreso para mostrar carga de datos
+
+    // Método que se llama al crear la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            AppTakeAwayTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+        setContentView(R.layout.activity_main) // Establece el layout de la actividad
+
+        productViewModel = ProductViewModel() // Inicializa el ViewModel de productos
+        cartViewModel = (application as AppTakeAwayApplication).cartViewModel // Obtiene el ViewModel del carrito
+
+        setupRecyclerView() // Configura el RecyclerView
+        setupSearchView() // Configura la vista de búsqueda
+        setupCartButton() // Configura el botón del carrito
+        observeProducts() // Observa cambios en los productos
+        observeCart() // Observa cambios en el carrito
+
+        progressBar = findViewById(R.id.progressBar) // Inicializa la barra de progreso
+
+        loadProducts() // Carga los productos al inicio
+    }
+
+    // Método para cargar los productos
+    private fun loadProducts() {
+        progressBar.visibility = View.VISIBLE // Muestra la barra de progreso
+        productViewModel.loadProducts() // Llama al método de ViewModel para cargar productos
+    }
+
+    // Método para configurar el RecyclerView
+    private fun setupRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView) // Obtiene la referencia del RecyclerView
+        val layoutManager = GridLayoutManager(this, 2) // Define el layout en cuadrícula con 2 columnas
+        recyclerView.layoutManager = layoutManager // Asigna el layout manager al RecyclerView
+
+        // Inicializa el adaptador de productos
+        productAdapter = ProductAdapter { product ->
+            cartViewModel.addToCart(product) // Añade el producto al carrito
+            Log.d("MainActivity", "Producto añadido al carrito: ${product.name}") // Log de depuración
+            Toast.makeText(this, "${product.name} añadido al carrito", Toast.LENGTH_SHORT).show() // Mensaje al usuario
+        }
+
+        recyclerView.adapter = productAdapter // Asigna el adaptador al RecyclerView
+    }
+
+    // Método para configurar la vista de búsqueda
+    private fun setupSearchView() {
+        val searchView = findViewById<SearchView>(R.id.searchView) // Obtiene la referencia de la vista de búsqueda
+
+        // Establece un listener para manejar las consultas de texto
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                productViewModel.filterProducts(query) // Filtra productos cuando se envía la consulta
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                productViewModel.filterProducts(newText) // Filtra productos a medida que cambia el texto
+                return true
+            }
+        })
+    }
+
+    // Método para observar cambios en la lista de productos
+    private fun observeProducts() {
+        productViewModel.products.observe(this) { products -> // Observa el LiveData de productos
+            progressBar.visibility = View.GONE // Oculta la barra de progreso al cargar productos
+
+            if (products.isNotEmpty()) {
+                productAdapter.submitList(products) // Actualiza el adaptador con la lista de productos
+                Log.d("MainActivity", "Productos cargados: ${products.size}") // Log de depuración
+            } else {
+                Toast.makeText(this, "No se encontraron productos", Toast.LENGTH_SHORT).show() // Mensaje si no hay productos
+                Log.d("MainActivity", "No se encontraron productos") // Log de depuración
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    // Método para configurar el botón del carrito
+    private fun setupCartButton() {
+        val cartButton = findViewById<ImageButton>(R.id.cartButton) // Obtiene el botón del carrito
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AppTakeAwayTheme {
-        Greeting("Android")
+        // Establece un listener para manejar el clic en el botón
+        cartButton.setOnClickListener {
+            Log.d("MainActivity", "Navegando a CartActivity") // Log de depuración
+            startActivity(Intent(this, CartActivity::class.java)) // Navega a la actividad del carrito
+        }
+    }
+
+    // Método para observar cambios en el carrito
+    private fun observeCart() {
+        cartViewModel.cartItems.observe(this) { cartItems -> // Observa el LiveData de items en el carrito
+            updateCartBadge(cartItems.sumOf { it.quantity }) // Actualiza la insignia del carrito con el conteo de items
+            Log.d("MainActivity", "Carrito actualizado: ${cartItems.size} items") // Log de depuración
+        }
+    }
+
+    // Método para actualizar la insignia del carrito
+    private fun updateCartBadge(itemCount: Int) {
+        val cartButton = findViewById<ImageButton>(R.id.cartButton) // Obtiene el botón del carrito
+        if (itemCount > 0) {
+            Toast.makeText(this, "Items en el carrito: $itemCount", Toast.LENGTH_SHORT).show() // Mensaje al usuario
+        }
     }
 }
