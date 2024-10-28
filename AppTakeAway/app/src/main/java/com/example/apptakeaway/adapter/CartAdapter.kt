@@ -91,7 +91,7 @@ class CartAdapter(
 
             // Cargar la imagen del producto usando Glide
             Glide.with(itemView.context)
-                .load(item.product.imagePath) // Ruta de la imagen
+                .load("http://name.tr1-g5.dam.inspedralbes.cat:21787/" + item.product.imagePath) // Ruta de la imagen
                 .apply(RequestOptions()
                     .placeholder(android.R.drawable.ic_menu_gallery) // Imagen de carga
                     .error(android.R.drawable.ic_menu_gallery) // Imagen en caso de error
