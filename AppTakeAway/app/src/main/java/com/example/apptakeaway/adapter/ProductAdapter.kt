@@ -52,7 +52,7 @@ class ProductAdapter(
 
         // Cargar la imagen del producto usando Glide
         Glide.with(holder.imageView.context)
-            .load(product.imagePath) // Ruta de la imagen
+            .load("http://name.tr1-g5.dam.inspedralbes.cat:21787/" + product.imagePath) // Ruta de la imagen
             .error(android.R.drawable.ic_menu_gallery) // Placeholder en caso de error
             .into(holder.imageView) // Cargar la imagen en el ImageView
 

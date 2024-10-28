@@ -61,6 +61,7 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
+
     // Método para observar los elementos del carrito
     private fun observeCartItems() {
         totalTextView = findViewById(R.id.totalTextView) // Encuentra el TextView para mostrar el total
