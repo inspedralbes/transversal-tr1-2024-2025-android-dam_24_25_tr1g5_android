@@ -8,6 +8,7 @@ package com.example.apptakeaway // Paquete donde se encuentra la actividad del c
  * y se implementan funcionalidades como la actualización de cantidades y la eliminación de productos.
  */
 
+import android.content.Intent
 import android.os.Bundle // Importa la clase Bundle para pasar datos entre actividades
 import android.util.Log // Importa la clase Log para registrar mensajes de depuración
 import android.widget.ImageButton // Importa la clase ImageButton para botones de imagen
@@ -36,6 +37,7 @@ class CartActivity : AppCompatActivity() {
 
         setupRecyclerView() // Configura el RecyclerView para mostrar los elementos del carrito
         setupBackButton() // Configura el botón de retroceso
+        setupPayButton()
         observeCartItems() // Observa los elementos del carrito para actualizaciones
     }
 
@@ -67,7 +69,9 @@ class CartActivity : AppCompatActivity() {
     }
     private fun setupPayButton() {
         findViewById<ImageButton>(R.id.payButton).setOnClickListener {
-            finish() // Cierra la actividad actual y vuelve a la anterior
+            // Inicia PayActivity
+            val intent = Intent(this, PayActivity::class.java)
+            startActivity(intent) // Llama a startActivity con el Intent creado
         }
     }
 
