@@ -23,4 +23,6 @@ interface ApiService {
     @POST("/user")
     fun postUser(@Body user: User): Call<Void>
 
+    @GET("/user")
+    fun getUsers(): Call<List<User>>
 }

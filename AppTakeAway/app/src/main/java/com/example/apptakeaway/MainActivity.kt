@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         progressBar = findViewById(R.id.progressBar) // Inicializa la barra de progreso
 
         loadProducts() // Carga los productos al inicio
+
     }
 
     // Método para cargar los productos

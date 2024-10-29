@@ -23,7 +23,7 @@ class InitialScreenActivity : AppCompatActivity() {
         }
         val registerButton = findViewById<Button>(R.id.registerButton)
         registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()
         }
