@@ -1,175 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/msgCreditCard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#F5F5F5"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Back Arrow -->
+    <!-- Back Arrow and Title -->
     <ImageView
+        android:id="@+id/backArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_back"
-    android:contentDescription="Back Arrow"/>
+        android:contentDescription="Back Arrow"
+        android:src="@drawable/ic_arrow_back" />
 
-    <!-- Title -->
+    <!-- Payment Method Section -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
         android:text="Checkout"
-        android:textSize="20sp"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-medium"/>
+        android:textSize="20sp" />
 
-    <!-- Payment Method Section -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
         android:text="Payment method"
-        android:textSize="16sp"
+        android:textAlignment="textEnd"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-medium"/>
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
 
         <!-- Credit Card Option -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
             android:background="@drawable/rounded_background"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_credit_card"
-            android:contentDescription="Credit Card Icon"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Credit Card Icon"
+                android:src="@drawable/ic_credit_card" />
 
-        <TextView
-            android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="262dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="Credit card"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:buttonTint="#000000" />
+        </LinearLayout>
+
+        <!-- Pay in Shop Option -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:text="Credit card\n**** **** **** 6554"
-            android:textSize="14sp"
-            android:textColor="#000000"/>
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="#000000"
-            android:padding="16dp"
-            android:layout_margin="8dp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Pay in Shop Icon"
+                android:src="@drawable/ic_wallet" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="Pay in shop"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:buttonTint="#000000" />
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Pay in Shop Option -->
+    <!-- Spacer to push content down -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Cart Section (Fixed to Bottom) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="My cart (1)"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_background"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_wallet"
-            android:contentDescription="Pay in Shop Icon"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="Product Image"
+            android:src="@drawable/ic_arrow_back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="Arrow"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
+
+    <!-- Total Price and Pay Button Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_background"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:text="Pay in shop"
-            android:textSize="14sp"
-            android:textColor="#000000"/>
+            android:text="TOTAL"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
-        <RadioButton
+        <TextView
+            android:id="@+id/textPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="#000000"
-            android:padding="16dp"
-            android:layout_margin="8dp"/>
+            android:textColor="#000000"
+            android:textSize="16sp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/payNowButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#000000"
+        android:text="Pay"
+        android:textColor="#FFFFFF" />
 </LinearLayout>
-
-    <!-- Cart Section -->
-<TextView
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_marginTop="24dp"
-android:text="My cart (1)"
-android:textSize="16sp"
-android:textColor="#000000"
-android:fontFamily="sans-serif-medium"/>
-
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:padding="12dp"
-android:layout_marginTop="8dp"
-android:background="@drawable/rounded_background"
-android:gravity="center_vertical">
-
-<ImageView
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:src="@drawable/ic_arrow_back"
-    android:contentDescription="Product Image"/>
-
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:src="@drawable/ic_arrow_right"
-android:contentDescription="Arrow"/>
-</LinearLayout>
-
-    <!-- Total Price and Pay Button Section -->
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:layout_gravity="end"
-android:layout_marginTop="24dp"
-android:padding="16dp"
-android:background="@drawable/rounded_background">
-
-<TextView
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:text="TOTAL"
-    android:textSize="16sp"
-    android:textColor="#000000"/>
-
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="124,99€"
-    android:textSize="16sp"
-    android:textColor="#000000"/>
-</LinearLayout>
-
-<Button
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="16dp"
-android:backgroundTint="#000000"
-android:text="Pay"
-android:textColor="#FFFFFF"/>
-    </LinearLayout>

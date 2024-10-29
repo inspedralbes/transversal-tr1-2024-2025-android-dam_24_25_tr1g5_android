@@ -11,6 +11,7 @@ package com.example.apptakeaway // Paquete donde se encuentra la actividad del c
 import android.content.Intent
 import android.os.Bundle // Importa la clase Bundle para pasar datos entre actividades
 import android.util.Log // Importa la clase Log para registrar mensajes de depuración
+import android.widget.Button
 import android.widget.ImageButton // Importa la clase ImageButton para botones de imagen
 import android.widget.TextView // Importa la clase TextView para mostrar texto
 import androidx.appcompat.app.AlertDialog // Importa la clase AlertDialog para diálogos de alerta
@@ -68,12 +69,13 @@ class CartActivity : AppCompatActivity() {
         }
     }
     private fun setupPayButton() {
-        findViewById<ImageButton>(R.id.payButton).setOnClickListener {
+        findViewById<Button>(R.id.payButton).setOnClickListener {
             // Inicia PayActivity
             val intent = Intent(this, PayActivity::class.java)
             startActivity(intent) // Llama a startActivity con el Intent creado
         }
     }
+
 
     // Método para observar los elementos del carrito
     private fun observeCartItems() {
