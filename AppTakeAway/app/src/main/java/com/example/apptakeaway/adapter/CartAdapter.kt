@@ -23,11 +23,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy // Estrategia de caché 
 import com.bumptech.glide.request.RequestOptions // Opciones para las peticiones de imagen
 import com.example.apptakeaway.R // Recursos de la aplicación
 import com.example.apptakeaway.model.CartItem // Modelo de los elementos del carrito
+import com.example.apptakeaway.model.Product
 
 // Clase que representa el adaptador del carrito
 class CartAdapter(
     private val onQuantityChanged: (CartItem, Int) -> Unit ,// Función para manejar cambios de cantidad
-    private val onSelectionChanged: (CartItem) -> Unit
+    private val onSelectionChanged: (CartItem) -> Unit,
 ) : ListAdapter<CartItem, CartAdapter.ViewHolder>(CartDiffCallback()) { // Hereda de ListAdapter
 
     // Método que crea el ViewHolder

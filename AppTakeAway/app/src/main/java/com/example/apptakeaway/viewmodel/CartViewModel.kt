@@ -21,7 +21,7 @@ class CartViewModel : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
 
-    private val _cartItems = MutableLiveData<List<CartItem>>()
+    val _cartItems = MutableLiveData<List<CartItem>>()
     val cartItems: LiveData<List<CartItem>> = _cartItems
 
     init {
@@ -87,6 +87,9 @@ class CartViewModel : ViewModel() {
         updatedCartItems?.let {
             _cartItems.postValue(it)
         }
+    }
+    fun hasSelectedItems(): Boolean {
+        return _cartItems.value?.any { it.isSelected } ?: false
     }
 
 }
