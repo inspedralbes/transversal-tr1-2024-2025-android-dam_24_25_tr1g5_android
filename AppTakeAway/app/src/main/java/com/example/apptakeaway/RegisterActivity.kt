@@ -40,15 +40,14 @@ class RegisterActivity : AppCompatActivity() {
             val lastName = lastNameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            // Validar la entrada del usuario
+            // Validar entrada del usuario antes de registrar
             if (validateInput(email, password)) {
-                // Crear un objeto User usando el data class
                 val user = User(
                     email = email,
                     password = password,
                     firstName = if (firstName.isNotEmpty()) firstName else "",
                     lastName = if (lastName.isNotEmpty()) lastName else "",
-                    paymentMethod = null // Asumiendo que no se necesita de momento
+                    paymentMethod = 0
                 )
 
                 // Registrar el usuario
@@ -74,15 +73,17 @@ class RegisterActivity : AppCompatActivity() {
         return isValid
     }
 
-    // Método para registrar el usuario usando Retrofit
+    // Método para registrar al usuario usando Retrofit
     private fun registerUser(user: User) {
         Log.d("RegisterActivity", "Llamando al método postUser en ApiService")
         RetrofitClient.apiService.postUser(user).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@RegisterActivity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+
+                    // Redirigir a AnotherActivity al registrarse exitosamente
                     startActivity(Intent(this@RegisterActivity, SignInActivity::class.java))
-                    finish()
+                    finish() // Finalizar la actividad actual
                 } else {
                     Log.d("RegisterActivity", "Error en el registro: ${response.code()}")
                     Toast.makeText(this@RegisterActivity, "Error en el registro, intenta de nuevo", Toast.LENGTH_SHORT).show()
@@ -95,5 +96,4 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
     }
-
 }

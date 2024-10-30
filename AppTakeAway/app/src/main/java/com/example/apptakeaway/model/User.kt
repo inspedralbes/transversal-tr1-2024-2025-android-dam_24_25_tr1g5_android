@@ -8,6 +8,6 @@ data class User(
     val password: String,               // Campo obligatorio para la contraseña
     val firstName: String? = null,      // Campo opcional para el primer nombre
     val lastName: String? = null,       // Campo opcional para el apellido
-    val paymentMethod: Boolean? = null  // Representación de TINYINT(1), acepta valores nulos
+    val paymentMethod: Byte  // Representación de TINYINT(1), acepta valores nulos
 )
 
