@@ -1,0 +1,23 @@
+<!-- res/drawable/profile_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Esquinas redondeadas -->
+    <corners android:radius="16dp" />
+
+    <!-- Borde -->
+    <stroke
+        android:width="2dp"
+        android:color="#CCCCCC" />
+
+    <!-- Fondo de degradado -->
+    <gradient
+        android:startColor="#FFFFFF"
+        android:endColor="#f0f4f8"
+        android:angle="270" />
+
+    <!-- Sombra interna opcional -->
+    <padding
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp"
+        android:bottom="8dp" />
+</shape>
