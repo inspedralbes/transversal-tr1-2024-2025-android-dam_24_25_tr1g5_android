@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apptakeaway.model.Login
 import com.example.apptakeaway.api.RetrofitClient
-import com.example.apptakeaway.api.hashPasswordBcrypt
 import com.example.apptakeaway.model.User
 import org.mindrot.jbcrypt.BCrypt
 import retrofit2.Call
@@ -38,13 +37,12 @@ class SignInActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
-            val hashPassword = hashPasswordBcrypt(password)
 
-            if (email.isEmpty() || hashPassword.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Por favor ingresa correo y contraseña", Toast.LENGTH_SHORT).show()
             } else {
-                Log.e(hashPassword, "hashpassowrd")
-                loginUser(email, hashPassword)
+                Log.e(password, "hashpassowrd")
+                loginUser(email, password)
             }
         }
 
