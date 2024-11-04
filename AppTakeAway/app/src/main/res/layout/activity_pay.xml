@@ -14,7 +14,6 @@
         android:contentDescription="Back Arrow"
         android:src="@drawable/ic_arrow_back" />
 
-    <!-- Payment Method Section -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,18 +23,19 @@
         android:textColor="#000000"
         android:textSize="20sp" />
 
+    <!-- Payment Method Section -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-medium"
         android:text="Payment method"
-        android:textAlignment="textEnd"
         android:textColor="#000000"
         android:textSize="16sp" />
 
     <!-- RadioGroup to allow only one selection -->
     <RadioGroup
+        android:id="@+id/paymentMethodGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp">
@@ -57,7 +57,7 @@
                 android:src="@drawable/ic_credit_card" />
 
             <TextView
-                android:layout_width="135dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
@@ -70,7 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:buttonTint="#000000" />
+                android:buttonTint="#000000"
+                android:checked="false" />
         </LinearLayout>
 
         <!-- Pay in Shop Option -->
@@ -103,7 +104,6 @@
                 android:id="@+id/payInShopRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:buttonTint="#000000" />
         </LinearLayout>
@@ -117,6 +117,7 @@
 
     <!-- Cart Section (Fixed to Bottom) -->
     <TextView
+        android:id="@+id/totalProductsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -125,22 +126,20 @@
         android:textColor="#000000"
         android:textSize="16sp" />
 
+    <!-- RecyclerView for displaying cart items -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_cart_box"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:padding="12dp"
-        android:scrollbars="horizontal"
-        android:orientation="horizontal" />
+        android:padding="8dp"
+        android:scrollbars="horizontal" />
 
     <!-- Total Price and Pay Button Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_background"
         android:orientation="horizontal"
         android:padding="16dp">
 

@@ -1,4 +1,8 @@
-package com.example.apptakeaway.model // Paquete donde se encuentra el modelo del producto
+package com.example.apptakeaway.model
+
+import java.io.Serializable
+
+// Paquete donde se encuentra el modelo del producto
 
 /*
  * La clase de datos `Product` representa un producto disponible en la aplicación.
@@ -19,4 +23,4 @@ data class Product(
     val colors: String, // Colores disponibles para el producto
     val stock: Int, // Cantidad disponible en stock
     val activated: Int // Estado de activación del producto (por ejemplo, si está disponible para la compra)
-)
+) : Serializable

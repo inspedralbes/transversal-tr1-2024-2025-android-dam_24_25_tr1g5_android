@@ -27,7 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CartActivity" />
-        <activity android:name=".PayActivity" />
+        <activity android:name=".PayActivity"/>
+
 
         <meta-data
             android:name="preloaded_fonts"

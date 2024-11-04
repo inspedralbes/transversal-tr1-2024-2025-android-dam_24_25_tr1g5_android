@@ -22,7 +22,6 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create()) // Añade el convertidor de Gson
             .build() // Construye la instancia de Retrofit
     }
-
     // Proporciona la implementación de ApiService de manera perezosa
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java) // Crea una instancia de ApiService

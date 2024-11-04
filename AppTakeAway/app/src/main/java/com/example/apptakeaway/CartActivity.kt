@@ -2,23 +2,19 @@ package com.example.apptakeaway // Paquete donde se encuentra la actividad del c
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apptakeaway.adapter.CartAdapter
 import com.example.apptakeaway.model.CartItem
 import com.example.apptakeaway.viewmodel.CartViewModel
-import com.example.apptakeaway.viewmodel.PayViewModel // Importa el PayViewModel
 
 class CartActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
-    private lateinit var payViewModel: PayViewModel // Nueva referencia al PayViewModel
     private lateinit var cartAdapter: CartAdapter
     private lateinit var totalTextView: TextView
     private lateinit var payButton: Button
@@ -29,13 +25,14 @@ class CartActivity : AppCompatActivity() {
 
         // Inicializa los ViewModels
         cartViewModel = (application as AppTakeAwayApplication).cartViewModel
-        payViewModel = ViewModelProvider(this).get(PayViewModel::class.java) // Inicializa PayViewModel
+
         payButton = findViewById(R.id.payButton)
 
         setupRecyclerView()
         setupBackButton()
         setupPayButton()
         observeCartItems()
+
     }
 
     private fun setupRecyclerView() {
@@ -62,16 +59,31 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
+    // En CartActivity
     private fun setupPayButton() {
-        payButton.setOnClickListener {
-            // Transferir los ítems seleccionados al PayViewModel
-            payViewModel.transferSelectedItems(cartViewModel.cartItems.value ?: emptyList())
+        findViewById<Button>(R.id.payButton).setOnClickListener {
+            cartViewModel.addItemsToPayItems() // Llama a la función para actualizar `payItems`
 
-            // Inicia PayActivity
-            val intent = Intent(this, PayActivity::class.java)
-            startActivity(intent)
+            // Observa los cambios en `payItems` antes de navegar
+            cartViewModel.payItems.observe(this) { payItems ->
+                if (payItems.any { it.isSelected }) { // Asegura que haya elementos seleccionados
+                    val selectedPayItems = payItems.filter { it.isSelected }
+
+                    // Crear el Intent para iniciar PayActivity
+                    val intent = Intent(this, PayActivity::class.java).apply {
+                        putExtra("payItems", ArrayList(selectedPayItems))
+                    }
+
+                    // Iniciar PayActivity
+                    startActivity(intent)
+
+                    // Deja de observar después de la navegación para evitar múltiples lanzamientos
+                    cartViewModel.payItems.removeObservers(this)
+                }
+            }
         }
     }
+
 
     private fun observeCartItems() {
         totalTextView = findViewById(R.id.totalTextView)

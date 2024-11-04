@@ -7,9 +7,10 @@ package com.example.apptakeaway.model // Paquete donde se encuentra el modelo de
  * ha agregado a su carrito durante el proceso de compra.
  */
 
-// Clase de datos que representa un ítem en el carrito
+import java.io.Serializable
+
 data class CartItem(
-    val product: Product, // Referencia al producto asociado al ítem del carrito
-    var quantity: Int, // Cantidad del producto en el carrito
-    var isSelected: Boolean = true // Estado de selección del ítem (por defecto es true)
-)
+    val product: Product,
+    var quantity: Int,
+    var isSelected: Boolean = true
+) : Serializable

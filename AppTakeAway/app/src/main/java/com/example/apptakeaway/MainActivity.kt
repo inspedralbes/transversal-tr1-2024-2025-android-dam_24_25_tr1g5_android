@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         setupCartButton() // Configura el botón del carrito
         observeProducts() // Observa cambios en los productos
         observeCart() // Observa cambios en el carrito
+        observePayItems() // Observa cambios en payItems
 
         progressBar = findViewById(R.id.progressBar) // Inicializa la barra de progreso
 
@@ -120,6 +121,13 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         cartViewModel.cartItems.observe(this) { cartItems -> // Observa el LiveData de items en el carrito
             updateCartBadge(cartItems.sumOf { it.quantity }) // Actualiza la insignia del carrito con el conteo de items
             Log.d("MainActivity", "Carrito actualizado: ${cartItems.size} items") // Log de depuración
+        }
+    }
+
+    // Método para observar cambios en payItems
+    private fun observePayItems() {
+        cartViewModel.payItems.observe(this) { payItems ->
+            Log.d("MainActivity", "PayItems actualizados: ${payItems.size} items") // Log de depuración
         }
     }
 
