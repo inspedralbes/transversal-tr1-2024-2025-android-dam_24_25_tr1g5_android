@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apptakeaway.model.Login
 import com.example.apptakeaway.api.RetrofitClient
+import com.example.apptakeaway.api.hashPasswordBcrypt
 import com.example.apptakeaway.model.User
 import org.mindrot.jbcrypt.BCrypt
 import retrofit2.Call
@@ -21,7 +22,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
-    private lateinit var registerText: TextView  // Corrige el nombre a 'registerText'
+    private lateinit var registerText: TextView // Corrige el nombre a 'registerText'
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +38,13 @@ class SignInActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
+            val hashPassword = hashPasswordBcrypt(password)
 
-            if (email.isEmpty() || password.isEmpty()) {
+            if (email.isEmpty() || hashPassword.isEmpty()) {
                 Toast.makeText(this, "Por favor ingresa correo y contraseña", Toast.LENGTH_SHORT).show()
             } else {
-                loginUser(email, password)
+                Log.e(hashPassword, "hashpassowrd")
+                loginUser(email, hashPassword)
             }
         }
 
@@ -55,10 +58,10 @@ class SignInActivity : AppCompatActivity() {
     // Método para autenticar al usuario
     private fun loginUser(email: String, password: String) {
         // Crear el objeto de solicitud de inicio de sesión
-        val loginUser = Login(email, password)
-
+        //val loginUser = Login(userLogin)
+        val datauser = Login(email, password)
         // Realizar la solicitud a través de Retrofit
-        RetrofitClient.apiService.login(loginUser).enqueue(object : Callback<User> {
+        RetrofitClient.apiService.login(datauser).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful && response.body() != null) {
                     val user = response.body()!!

@@ -9,7 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apptakeaway.api.RetrofitClient
+import com.example.apptakeaway.api.hashPasswordBcrypt
 import com.example.apptakeaway.model.User
+import org.mindrot.jbcrypt.BCrypt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,12 +41,13 @@ class RegisterActivity : AppCompatActivity() {
             val firstName = firstNameEditText.text.toString().trim()
             val lastName = lastNameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
+            val hashpassword = hashPasswordBcrypt(password)
 
             // Validar entrada del usuario antes de registrar
-            if (validateInput(email, password)) {
+            if (validateInput(email, hashpassword)) {
                 val user = User(
                     email = email,
-                    password = password,
+                    password = hashpassword,
                     firstName = if (firstName.isNotEmpty()) firstName else "",
                     lastName = if (lastName.isNotEmpty()) lastName else "",
                     paymentMethod = 0
@@ -95,5 +98,11 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this@RegisterActivity, "Fallo en la conexión: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+
+        fun hashPasswordBcrypt(password: String): String {
+            // Genera un hash de la contraseña
+//            return BCrypt.hashpw(password, BCrypt.gensalt())
+            return BCrypt.hashpw(password, BCrypt.gensalt())
+        }
     }
 }
