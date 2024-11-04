@@ -59,6 +59,8 @@ android {
 
 dependencies {
 
+    implementation ("org.mindrot:jbcrypt:0.4")
+
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation ("androidx.core:core-ktx:1.10.1")
