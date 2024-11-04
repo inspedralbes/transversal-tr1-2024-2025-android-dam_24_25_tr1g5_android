@@ -69,6 +69,13 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.google.code.gson:gson:2.8.9")
+    implementation ("org.mindrot:jbcrypt:0.4")
+
+    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("com.google.code.gson:gson:2.8.9")
 
     // Retrofit dependencies
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -76,7 +83,16 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.androidx.cardview)
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.ui.test.android)
+    implementation(libs.androidx.ui.test.android)
+    kapt("com.github.bumptech.glide:compiler:4.12.0") 
+
     // AndroidX dependencies
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
@@ -102,5 +118,5 @@ dependencies {
 }
 
 fun kapt(s: String) {
-    // Kapt configuration can be implemented if needed
+
 }
