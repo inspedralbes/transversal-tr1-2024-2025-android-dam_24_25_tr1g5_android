@@ -3,6 +3,7 @@ package com.example.apptakeaway // Asegúrate de que esto coincida con tu estruc
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -15,12 +16,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apptakeaway.adapter.PayAdapter
+import com.example.apptakeaway.api.CreditCardRepository
 import com.example.apptakeaway.api.OrderRepository
+import com.example.apptakeaway.api.RetrofitClient
 import com.example.apptakeaway.model.CartItem
+import com.example.apptakeaway.model.CreditCard
 import com.example.apptakeaway.model.OrderRequest
 import com.example.apptakeaway.model.ProductOrder
 import com.example.apptakeaway.model.Total
 import com.example.apptakeaway.viewmodel.CartViewModel
+
 
 class PayActivity : AppCompatActivity() {
 
@@ -174,17 +179,21 @@ class PayActivity : AppCompatActivity() {
             products = products
         )
 
-        // Enviar el pedido a la API
-        sendOrderToServer(orderRequest)
+        if(paymentMethod == 1){
+            initiateCreditCardPayment(payItems,orderRequest)
+        }else{
+            processPayInShop(payItems, orderRequest)
+        }
     }
 
 
-    private fun processPayInShop(payItems: List<CartItem>) {
+    private fun processPayInShop(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Lógica para el pago en tienda
         AlertDialog.Builder(this)
             .setTitle("Confirmar pago en tienda")
             .setMessage("¿Confirmas que deseas pagar en la tienda por ${payItems.size} productos?")
             .setPositiveButton("Sí") { _, _ ->
+                sendOrderToServer(orderRequest)
                 // Elimina los ítems del carrito después de confirmar el pago en tienda
                 for (item in payItems) {
                     cartViewModel.removeFromCart(item)
@@ -195,13 +204,61 @@ class PayActivity : AppCompatActivity() {
             .setNegativeButton("No", null)
             .show()
     }
+    private fun showAddCreditCardDialog(payItems: List<CartItem>, orderRequest: OrderRequest) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_credit_card, null)
 
-    private fun processCreditCardPayment(payItems: List<CartItem>) {
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setTitle("Añadir tarjeta de crédito")
+            .setPositiveButton("Añadir") { _, _ ->
+                val cardNumber = dialogView.findViewById<EditText>(R.id.cardNumberEditText).text.toString()
+                val cardHolder = dialogView.findViewById<EditText>(R.id.cardHolderNameEditText).text.toString()
+                val expiryDate = dialogView.findViewById<EditText>(R.id.expiryDateEditText).text.toString()
+                val cvv = dialogView.findViewById<EditText>(R.id.cvvEditText).text.toString()
+                val userId = 1 // Obtén el ID del usuario autenticado
+
+                if (cardNumber.isNotEmpty() && cardHolder.isNotEmpty() && expiryDate.isNotEmpty() && cvv.isNotEmpty()) {
+                    val creditCard = CreditCard(userId, cardHolder, cardNumber, expiryDate, cvv)
+
+                    // Crea una instancia de CreditCardRepository
+                    val creditCardRepository = CreditCardRepository()
+
+                    // Llama al método addCreditCard
+                    creditCardRepository.addCreditCard(creditCard, {
+                        // Lógica en caso de éxito
+                        processCreditCardPayment(payItems, orderRequest)
+                        Toast.makeText(this, "Tarjeta añadida y pago exitoso.", Toast.LENGTH_SHORT).show()
+                    }, { errorMessage ->
+                        // Manejo de errores
+                        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    })
+                } else {
+                    Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        dialog.show()
+    }
+
+
+
+
+    // Función de inicio para realizar el pago
+    private fun initiateCreditCardPayment(payItems: List<CartItem>, orderRequest: OrderRequest) {
+        // Llama al diálogo de agregar tarjeta
+        showAddCreditCardDialog(payItems, orderRequest)
+    }
+
+    // Función de proceso de pago
+    private fun processCreditCardPayment(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Lógica para el pago con tarjeta de crédito
         AlertDialog.Builder(this)
             .setTitle("Confirmar pago con tarjeta")
             .setMessage("¿Confirmas el pago con tarjeta por ${payItems.size} productos?")
             .setPositiveButton("Sí") { _, _ ->
+                sendOrderToServer(orderRequest)
                 // Elimina los ítems del carrito después del pago con tarjeta
                 for (item in payItems) {
                     cartViewModel.removeFromCart(item)
@@ -212,4 +269,5 @@ class PayActivity : AppCompatActivity() {
             .setNegativeButton("No", null)
             .show()
     }
+
 }

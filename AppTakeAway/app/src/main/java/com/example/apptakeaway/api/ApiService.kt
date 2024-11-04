@@ -6,6 +6,7 @@ package com.example.apptakeaway.api // Paquete donde se encuentra la interfaz pa
  * En este caso, se define un método para obtener una lista de productos desde el endpoint "productUser".
  */
 
+import com.example.apptakeaway.model.CreditCard
 import com.example.apptakeaway.model.OrderRequest
 import com.example.apptakeaway.model.OrderResponse
 import com.example.apptakeaway.model.Product // Importa el modelo Product que representa un producto
@@ -22,4 +23,7 @@ interface ApiService {
 
     @POST("orders") // Asegúrate de que este sea el endpoint correcto
     fun placeOrder(@Body orderRequest: OrderRequest): Call<OrderResponse>
+
+    @POST("/creditCard")
+    fun addCreditCard(@Body creditCard: CreditCard): Call<Void>
 }

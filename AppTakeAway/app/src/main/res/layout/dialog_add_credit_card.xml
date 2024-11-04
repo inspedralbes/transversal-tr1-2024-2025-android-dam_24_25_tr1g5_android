@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Añadir tarjeta de crédito"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"
+        android:layout_gravity="center"/>
+
+    <!-- Número de tarjeta -->
+    <EditText
+        android:id="@+id/cardNumberEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número de tarjeta"
+        android:inputType="number"
+        android:maxLength="16"
+        android:drawableLeft="@drawable/ic_credit_card"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <!-- Nombre del titular -->
+    <EditText
+        android:id="@+id/cardHolderNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del titular"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Fecha de vencimiento -->
+    <EditText
+        android:id="@+id/expiryDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha de vencimiento (MM/AA)"
+        android:inputType="date"
+        android:maxLength="5"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Código de seguridad (CVV) -->
+    <EditText
+        android:id="@+id/cvvEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Código de seguridad (CVV)"
+        android:inputType="numberPassword"
+        android:maxLength="3"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Botón de confirmar -->
+</LinearLayout>
