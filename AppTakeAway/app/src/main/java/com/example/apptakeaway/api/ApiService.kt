@@ -6,9 +6,14 @@ package com.example.apptakeaway.api // Paquete donde se encuentra la interfaz pa
  * En este caso, se define un método para obtener una lista de productos desde el endpoint "productUser".
  */
 
+import com.example.apptakeaway.model.CreditCard
+import com.example.apptakeaway.model.Login
+import com.example.apptakeaway.model.Order
+import com.example.apptakeaway.model.OrderRequest
+import com.example.apptakeaway.model.OrderResponse
 import com.example.apptakeaway.model.Product // Importa el modelo Product que representa un producto
 import com.example.apptakeaway.model.User
-import org.mindrot.jbcrypt.BCrypt
+
 import retrofit2.Call // Clase de Retrofit para manejar respuestas de API
 import retrofit2.http.GET // Anotación de Retrofit para las solicitudes GET
 import retrofit2.http.POST

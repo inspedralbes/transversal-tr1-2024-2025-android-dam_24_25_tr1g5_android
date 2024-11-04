@@ -6,9 +6,9 @@ data class OrderRequest(
 )
 
 data class Total(
-    val totalPrice: String, // Utiliza String según tu ejemplo JSON
-    val userId: Int,
-    val pay: Int // Cambia a Boolean si prefieres usar true/false, pero aquí lo dejé como Int para que coincida con tu descripción
+    val totalPrice: String,
+    val userId: Int?, // Cambia Int a Int? para permitir valores nulos
+    val pay: Int
 )
 
 data class ProductOrder(

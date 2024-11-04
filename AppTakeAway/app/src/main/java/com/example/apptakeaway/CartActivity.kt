@@ -1,4 +1,4 @@
-package com.example.apptakeaway // Paquete donde se encuentra la actividad del carrito
+package com.example.apptakeaway
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +19,9 @@ class CartActivity : AppCompatActivity() {
     private lateinit var totalTextView: TextView
     private lateinit var payButton: Button
 
+    private var userId: Int = -1 // Variable para almacenar el userId
+    private var isLoggedIn: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
@@ -26,13 +29,16 @@ class CartActivity : AppCompatActivity() {
         // Inicializa los ViewModels
         cartViewModel = (application as AppTakeAwayApplication).cartViewModel
 
+        // Obtiene el userId del Intent
+        userId = intent.getIntExtra("userId", -1)
+        isLoggedIn = intent.getBooleanExtra("isLoggedIn", false)
+
         payButton = findViewById(R.id.payButton)
 
         setupRecyclerView()
         setupBackButton()
         setupPayButton()
         observeCartItems()
-
     }
 
     private fun setupRecyclerView() {
@@ -59,7 +65,6 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    // En CartActivity
     private fun setupPayButton() {
         findViewById<Button>(R.id.payButton).setOnClickListener {
             cartViewModel.addItemsToPayItems() // Llama a la función para actualizar `payItems`
@@ -72,6 +77,8 @@ class CartActivity : AppCompatActivity() {
                     // Crear el Intent para iniciar PayActivity
                     val intent = Intent(this, PayActivity::class.java).apply {
                         putExtra("payItems", ArrayList(selectedPayItems))
+                        putExtra("userId", userId) // Pasa el userId a PayActivity
+                        putExtra("isLoggedIn", isLoggedIn)
                     }
 
                     // Iniciar PayActivity
@@ -83,7 +90,6 @@ class CartActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun observeCartItems() {
         totalTextView = findViewById(R.id.totalTextView)

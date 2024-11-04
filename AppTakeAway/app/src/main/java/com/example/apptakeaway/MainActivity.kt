@@ -13,6 +13,7 @@ import android.os.Bundle // Importa Bundle para pasar datos entre actividades
 import android.util.Log // Importa Log para registrar información de depuración
 import android.view.View // Importa View para manejar vistas
 import android.widget.ImageButton // Importa ImageButton para manejar botones de imagen
+import android.widget.PopupMenu
 import android.widget.ProgressBar // Importa ProgressBar para mostrar carga
 import android.widget.Toast // Importa Toast para mostrar mensajes breves
 import androidx.appcompat.app.AppCompatActivity // Importa AppCompatActivity para la actividad base
@@ -20,6 +21,7 @@ import androidx.appcompat.widget.SearchView // Importa SearchView para búsqueda
 import androidx.recyclerview.widget.GridLayoutManager // Importa GridLayoutManager para el diseño en cuadrícula
 import androidx.recyclerview.widget.RecyclerView // Importa RecyclerView para listas de elementos
 import com.example.apptakeaway.adapter.ProductAdapter // Importa el adaptador para productos
+import com.example.apptakeaway.model.User
 import com.example.apptakeaway.viewmodel.CartViewModel // Importa el ViewModel del carrito
 import com.example.apptakeaway.viewmodel.ProductViewModel // Importa el ViewModel de productos
 
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         setupRecyclerView() // Configura el RecyclerView
         setupSearchView() // Configura la vista de búsqueda
         setupCartButton() // Configura el botón del carrito
+        setupUserButton()
         observeProducts() // Observa cambios en los productos
         observeCart() // Observa cambios en el carrito
         observePayItems() // Observa cambios en payItems
@@ -207,9 +210,17 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         // Establece un listener para manejar el clic en el botón
         cartButton.setOnClickListener {
             Log.d("MainActivity", "Navegando a CartActivity") // Log de depuración
-            startActivity(Intent(this, CartActivity::class.java)) // Navega a la actividad del carrito
+
+            // Crea el Intent para CartActivity y pasa el userId
+            val intent = Intent(this, CartActivity::class.java)
+            intent.putExtra("userId", userId) // Pasa el userId al carrito
+            intent.putExtra("isLoggedIn", isLoggedIn)
+
+            // Navega a la actividad del carrito
+            startActivity(intent)
         }
     }
+
 
     // Método para observar cambios en el carrito
     private fun observeCart() {
