@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var progressBar: ProgressBar
 
+    val userId = intent.getIntExtra("userId", -1)
+    val email = intent.getStringExtra("email") ?: ""
+    val firstName = intent.getStringExtra("firstName") ?: ""
+    val lastName = intent.getStringExtra("lastName") ?: ""
+    val typeUserId = intent.getIntExtra("typeUserId", -1)
+    val paymentMethod = intent.getStringExtra("paymentMethod") ?: ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,13 +53,13 @@ class MainActivity : AppCompatActivity() {
 
         // Crear un objeto User con los datos del usuario
         val user = User(
-            id = 1,
-            email = "juan@example.com",
-            password = "1234",
-            firstName = "Juan",
-            lastName = "Pérez",
-            typeUserId = 2,
-            paymentMethod = "Tarjeta de Crédito"
+            id = userId,
+            email = email,
+            password = "", // Password can be left empty or managed differently
+            firstName = firstName,
+            lastName = lastName,
+            typeUserId = typeUserId,
+            paymentMethod = paymentMethod
         )
 
         // Establece un listener para mostrar el PopupMenu y manejar opciones de usuario
