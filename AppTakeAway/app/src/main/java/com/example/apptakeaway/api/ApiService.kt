@@ -10,7 +10,6 @@ import com.example.apptakeaway.model.Login
 import com.example.apptakeaway.model.Order
 import com.example.apptakeaway.model.Product // Importa el modelo Product que representa un producto
 import com.example.apptakeaway.model.User
-import org.mindrot.jbcrypt.BCrypt
 import retrofit2.Call // Clase de Retrofit para manejar respuestas de API
 import retrofit2.http.GET // Anotación de Retrofit para las solicitudes GET
 import retrofit2.http.POST
@@ -30,7 +29,7 @@ interface ApiService {
     @POST("user")
     fun postUser(@Body user: User): Call<Void>
 
-    @GET("orders/user/{userId}")
-    fun getOrdersForUser(@Path("userId") userId: Int): Call<List<Order>>
+    @GET("ordersUser/{Id}")
+    fun getOrdersForUser(@Path("Id") userId: Int): Call<List<Order>>
 }
 
