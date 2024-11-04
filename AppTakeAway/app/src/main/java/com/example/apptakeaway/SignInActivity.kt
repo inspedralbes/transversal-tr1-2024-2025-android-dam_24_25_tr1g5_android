@@ -70,16 +70,18 @@ class SignInActivity : AppCompatActivity() {
                     ).show()
 
                     // Crear intent para MainActivity y pasar los datos del usuario
+                    // Crear intent para MainActivity y pasar los datos del usuario
                     val intent = Intent(this@SignInActivity, MainActivity::class.java).apply {
+                        putExtra("isLoggedIn", true) // Agrega esta línea para pasar el estado de inicio de sesión
                         putExtra("userId", user.id)
                         putExtra("email", user.email)
                         putExtra("firstName", user.firstName)
                         putExtra("lastName", user.lastName)
-                        putExtra("typeUserId", user.typeUserId)
                         putExtra("paymentMethod", user.paymentMethod)
                     }
                     startActivity(intent)
                     finish()
+
                 } else {
                     Toast.makeText(this@SignInActivity, "Usuario no encontrado", Toast.LENGTH_SHORT)
                         .show()

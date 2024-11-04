@@ -11,21 +11,37 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         // Recupera los datos del Intent
-        val id = intent.getIntExtra("id", -1)
-        val email = intent.getStringExtra("email")
-        val password = intent.getStringExtra("password")
-        val firstName = intent.getStringExtra("firstName")
-        val lastName = intent.getStringExtra("lastName")
-        val typeUserId = intent.getIntExtra("typeUserId", -1)
-        val paymentMethod = intent.getStringExtra("paymentMethod")
+        val isLoggedIn = intent.getBooleanExtra("isLoggedIn", false)
 
         // Referencias a las vistas de texto en activity_profile.xml
-        findViewById<TextView>(R.id.idTextView).text = "ID: $id"
-        findViewById<TextView>(R.id.emailTextView).text = "Email: $email"
-        findViewById<TextView>(R.id.passwordTextView).text = "Contraseña: $password"
-        findViewById<TextView>(R.id.firstNameTextView).text = "Nombre: $firstName"
-        findViewById<TextView>(R.id.lastNameTextView).text = "Apellido: $lastName"
-        findViewById<TextView>(R.id.typeUserIdTextView).text = "Tipo de Usuario ID: $typeUserId"
-        findViewById<TextView>(R.id.paymentMethodTextView).text = "Método de Pago: $paymentMethod"
+        val idTextView = findViewById<TextView>(R.id.idTextView)
+        val emailTextView = findViewById<TextView>(R.id.emailTextView)
+        val passwordTextView = findViewById<TextView>(R.id.passwordTextView)
+        val firstNameTextView = findViewById<TextView>(R.id.firstNameTextView)
+        val lastNameTextView = findViewById<TextView>(R.id.lastNameTextView)
+        val paymentMethodTextView = findViewById<TextView>(R.id.paymentMethodTextView)
+
+        // Si no está logueado, muestra un mensaje
+        if (!isLoggedIn) {
+            idTextView.text = "No has iniciado sesión."
+            return // Salir de la actividad
+        }
+
+
+        // Si está logueado, recupera los datos del usuario
+        val id = intent.getIntExtra("userId", -1)
+        val email = intent.getStringExtra("email") ?: "N/A"
+        // Nota: No deberías mostrar la contraseña. Se sugiere omitirla por razones de seguridad.
+        val firstName = intent.getStringExtra("firstName") ?: "N/A"
+        val lastName = intent.getStringExtra("lastName") ?: "N/A"
+        val paymentMethod = intent.getByteExtra("paymentMethod", 0)
+
+        // Muestra los datos del usuario
+        idTextView.text = "ID: $id"
+        emailTextView.text = "Email: $email"
+        passwordTextView.text = "Contraseña: [No se muestra por motivos de seguridad]" // Omitido
+        firstNameTextView.text = "Nombre: $firstName"
+        lastNameTextView.text = "Apellido: $lastName"
+        paymentMethodTextView.text = "Método de Pago: $paymentMethod"
     }
 }

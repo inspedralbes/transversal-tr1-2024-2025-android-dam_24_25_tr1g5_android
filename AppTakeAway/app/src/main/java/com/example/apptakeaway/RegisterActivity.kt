@@ -9,9 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apptakeaway.api.RetrofitClient
-import com.example.apptakeaway.api.hashPasswordBcrypt
 import com.example.apptakeaway.model.User
-import org.mindrot.jbcrypt.BCrypt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,13 +39,12 @@ class RegisterActivity : AppCompatActivity() {
             val firstName = firstNameEditText.text.toString().trim()
             val lastName = lastNameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
-            val hashpassword = hashPasswordBcrypt(password)
 
             // Validar entrada del usuario antes de registrar
-            if (validateInput(email, hashpassword)) {
+            if (validateInput(email, password)) {
                 val user = User(
                     email = email,
-                    password = hashpassword,
+                    password = password,
                     firstName = if (firstName.isNotEmpty()) firstName else "",
                     lastName = if (lastName.isNotEmpty()) lastName else "",
                     paymentMethod = 0
@@ -66,6 +63,9 @@ class RegisterActivity : AppCompatActivity() {
         if (email.isEmpty()) {
             emailEditText.error = "El correo es obligatorio"
             isValid = false
+        } else if (!isValidEmail(email)) { // Validar el formato del correo electrónico
+            emailEditText.error = "El formato del correo no es válido"
+            isValid = false
         }
 
         if (password.isEmpty()) {
@@ -76,6 +76,11 @@ class RegisterActivity : AppCompatActivity() {
         return isValid
     }
 
+    // Método para validar el formato del correo electrónico
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
     // Método para registrar al usuario usando Retrofit
     private fun registerUser(user: User) {
         Log.d("RegisterActivity", "Llamando al método postUser en ApiService")
@@ -84,7 +89,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@RegisterActivity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
 
-                    // Redirigir a AnotherActivity al registrarse exitosamente
+                    // Redirigir a SignInActivity al registrarse exitosamente
                     startActivity(Intent(this@RegisterActivity, SignInActivity::class.java))
                     finish() // Finalizar la actividad actual
                 } else {
@@ -98,11 +103,5 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this@RegisterActivity, "Fallo en la conexión: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
-        fun hashPasswordBcrypt(password: String): String {
-            // Genera un hash de la contraseña
-//            return BCrypt.hashpw(password, BCrypt.gensalt())
-            return BCrypt.hashpw(password, BCrypt.gensalt())
-        }
     }
 }

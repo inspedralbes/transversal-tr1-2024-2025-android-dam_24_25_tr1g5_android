@@ -7,6 +7,7 @@ package com.example.apptakeaway.api // Paquete donde se encuentra la interfaz pa
  */
 
 import com.example.apptakeaway.model.Login
+import com.example.apptakeaway.model.Order
 import com.example.apptakeaway.model.Product // Importa el modelo Product que representa un producto
 import com.example.apptakeaway.model.User
 import org.mindrot.jbcrypt.BCrypt
@@ -15,6 +16,7 @@ import retrofit2.http.GET // Anotación de Retrofit para las solicitudes GET
 import retrofit2.http.POST
 import retrofit2.http.Body
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 // Interfaz que define los servicios API
 interface ApiService {
@@ -27,5 +29,8 @@ interface ApiService {
 
     @POST("user")
     fun postUser(@Body user: User): Call<Void>
+
+    @GET("orders/user/{userId}")
+    fun getOrdersForUser(@Path("userId") userId: Int): Call<List<Order>>
 }
 

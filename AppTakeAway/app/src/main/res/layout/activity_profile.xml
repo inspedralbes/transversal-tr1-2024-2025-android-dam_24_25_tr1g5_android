@@ -82,17 +82,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="4dp"/>
 
-        <!-- Tipo de Usuario ID -->
-        <TextView
-            android:id="@+id/typeUserIdTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tipo de Usuario ID:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
 
         <!-- Método de Pago -->
         <TextView
