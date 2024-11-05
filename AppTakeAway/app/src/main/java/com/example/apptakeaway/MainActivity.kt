@@ -114,14 +114,16 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
                     startActivity(intent)
                     true
                 }
+                // Dentro del listener de opciones del popup para pedidos
                 R.id.pedidos -> {
                     Toast.makeText(this, "Pedidos seleccionada", Toast.LENGTH_SHORT).show()
-                    // Iniciar OrdersActivity
+                    // Iniciar OrderActivity con el userId
                     val intent = Intent(this, OrderActivity::class.java)
-                    intent.putExtra("USER_ID", user.id) // Pasar userId al OrderActivity
+                    intent.putExtra("userId", user.id) // Usa "userId" como clave aquí también
                     startActivity(intent)
                     true
                 }
+
                 R.id.logout -> {
                     // Lógica para cerrar sesión
                     Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()

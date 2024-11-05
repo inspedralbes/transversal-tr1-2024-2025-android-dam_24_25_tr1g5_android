@@ -33,7 +33,7 @@ interface ApiService {
     @POST("user")
     fun postUser(@Body user: User): Call<Void>
 
-    @GET("orders/user/{userId}")
+    @GET("ordersUser/{userId}")
     fun getOrdersForUser(@Path("userId") userId: Int): Call<List<Order>>
 
     @POST("orders") // Asegúrate de que este sea el endpoint correcto

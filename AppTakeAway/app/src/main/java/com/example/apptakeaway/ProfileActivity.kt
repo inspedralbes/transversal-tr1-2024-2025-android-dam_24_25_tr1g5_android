@@ -1,6 +1,7 @@
 package com.example.apptakeaway
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -21,6 +22,7 @@ class ProfileActivity : AppCompatActivity() {
         val lastNameTextView = findViewById<TextView>(R.id.lastNameTextView)
         val paymentMethodTextView = findViewById<TextView>(R.id.paymentMethodTextView)
 
+        setupBackButton()
         // Si no está logueado, muestra un mensaje
         if (!isLoggedIn) {
             idTextView.text = "No has iniciado sesión."
@@ -43,5 +45,14 @@ class ProfileActivity : AppCompatActivity() {
         firstNameTextView.text = "Nombre: $firstName"
         lastNameTextView.text = "Apellido: $lastName"
         paymentMethodTextView.text = "Método de Pago: $paymentMethod"
+
+
+
+    }
+
+    fun setupBackButton() {
+        findViewById<ImageView>(R.id.backButton).setOnClickListener {
+            finish()
+        }
     }
 }
