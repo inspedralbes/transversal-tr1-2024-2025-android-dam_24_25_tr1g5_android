@@ -58,6 +58,8 @@ class OrderActivity : AppCompatActivity() {
     }
 
     private fun displayOrders(orders: List<Order>) {
+        Log.d("OrderActivity", "Mostrando órdenes: ${orders.size}")
+
         // Muestra las órdenes en el layout
         val ordersTextView = findViewById<TextView>(R.id.ordersTextView)
         val ordersText = orders.joinToString(separator = "\n\n") { order ->

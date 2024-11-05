@@ -9,7 +9,7 @@ data class Order(
     val userId: Int?,
     val date: Date,
     val status: String,
-    val pay: Boolean
+    val pay: Int,
 )
 
 // Define los modelos de datos para Order, OrderLine y Product si aún no están definidos.
