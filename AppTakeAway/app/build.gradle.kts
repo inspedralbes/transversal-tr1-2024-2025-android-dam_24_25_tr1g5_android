@@ -59,6 +59,9 @@ android {
 }
 
 dependencies {
+    implementation ("io.socket:socket.io-client:2.0.0")
+    implementation ("org.json:json:20210307")
+    implementation ("com.android.volley:volley:1.2.1")
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.13.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
