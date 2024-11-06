@@ -1,7 +1,9 @@
 package com.example.apptakeaway
 
+import SocketManager
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,16 +20,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.apptakeaway.adapter.PayAdapter
 import com.example.apptakeaway.api.CreditCardRepository
 import com.example.apptakeaway.api.OrderRepository
-import com.example.apptakeaway.api.RetrofitClient
 import com.example.apptakeaway.model.CartItem
 import com.example.apptakeaway.model.CreditCard
 import com.example.apptakeaway.model.OrderRequest
 import com.example.apptakeaway.model.ProductOrder
 import com.example.apptakeaway.model.Total
 import com.example.apptakeaway.viewmodel.CartViewModel
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
+import org.json.JSONObject
 
 class PayActivity : AppCompatActivity() {
 
+    private lateinit var socketManager: SocketManager
     private lateinit var creditCardRadioButton: RadioButton
     private lateinit var payInShopRadioButton: RadioButton
     private lateinit var textPriceTotal: TextView
@@ -38,7 +44,7 @@ class PayActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var paymentMethodGroup: RadioGroup
 
-    private var userId: Int = -1 // Declara la variable para almacenar el userId
+    private var userId: Int = -1
     private var isLoggedIn: Boolean = false
 
     @SuppressLint("MissingInflatedId")
@@ -46,28 +52,39 @@ class PayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay)
 
+        // Inicializa el SocketManager y conecta
+        socketManager = SocketManager(this)
+        socketManager.connect()
+
+        // Escucha el evento 'productUpdated' desde el servidor
+        socketManager.listen("productUpdated") { data ->
+            val productId = data.getInt("productId")
+            val activated = data.getInt("activated")
+            // Verifica si el producto está desactivado y actualiza la UI
+            Log.d("SocketManager", "Producto actualizado: ID = $productId, Activado = $activated")
+            if (activated == 0) {
+                updateProductUI(productId)
+            }
+        }
+
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
-        // Recupera `payItems` y `userId` de los extras del Intent
+        // Configuración de la interfaz de usuario
         val payItems = intent.getSerializableExtra("payItems") as? ArrayList<CartItem> ?: arrayListOf()
-        userId = intent.getIntExtra("userId", -1) // Asigna el valor de `userId` recibido
+        userId = intent.getIntExtra("userId", -1)
         isLoggedIn = intent.getBooleanExtra("isLoggedIn", false)
 
-        // Configura el RecyclerView
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        // Configura el adaptador y asigna la lista de `payItems`
         payAdapter = PayAdapter(payItems)
         recyclerView.adapter = payAdapter
 
-        // Inicializa el TextView para mostrar el total
         textPriceTotal = findViewById(R.id.textPriceTotal)
         totalProductsText = findViewById(R.id.totalProductsText)
         payNowButton = findViewById(R.id.payNowButton)
         paymentMethodGroup = findViewById(R.id.paymentMethodGroup)
 
-        // Actualiza el precio total
         updateTotalPrice(payItems)
         updateTotalProducts(payItems)
         setupPayButton(payItems)
@@ -75,9 +92,16 @@ class PayActivity : AppCompatActivity() {
         setupBackButton()
     }
 
-    override fun onBackPressed() {
-        cartViewModel.clearPayItems() // Asegúrate de que esta función exista en CartViewModel
-        super.onBackPressed()
+    override fun onDestroy() {
+        super.onDestroy()
+        // Desconectar el socket al destruir la actividad
+        socketManager.disconnect()
+    }
+
+    private fun updateProductUI(productId: Int) {
+        Toast.makeText(this, "Producto $productId está agotado y ha sido desactivado.", Toast.LENGTH_SHORT).show()
+        // Puedes actualizar la lista de productos en el RecyclerView o manejarlo como prefieras
+        payAdapter.notifyDataSetChanged() // Si tu adaptador lo soporta, actualizar la lista
     }
 
     private fun updateTotalPrice(payItems: List<CartItem>) {
@@ -155,11 +179,10 @@ class PayActivity : AppCompatActivity() {
             )
         }
 
-        // Configura el userId solo si el usuario está autenticado
         val orderRequest = OrderRequest(
             total = Total(
                 totalPrice = totalPrice,
-                userId = if (isLoggedIn) userId else null, // Aquí se pasa `null` si no está autenticado
+                userId = if (isLoggedIn) userId else null,
                 pay = paymentMethod
             ),
             products = products
@@ -172,21 +195,17 @@ class PayActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun processPayInShop(payItems: List<CartItem>, orderRequest: OrderRequest) {
-        // Lógica para el pago en tienda
         AlertDialog.Builder(this)
             .setTitle("Confirmar pago en tienda")
             .setMessage("¿Confirmas que deseas pagar en la tienda por ${payItems.size} productos?")
             .setPositiveButton("Sí") { _, _ ->
                 sendOrderToServer(orderRequest)
-                // Elimina los ítems del carrito después de confirmar el pago en tienda
                 for (item in payItems) {
                     cartViewModel.removeFromCart(item)
                 }
                 Toast.makeText(this, "Pago en tienda confirmado.", Toast.LENGTH_SHORT).show()
-                finish() // Finaliza la actividad después de confirmar
+                finish()
             }
             .setNegativeButton("No", null)
             .show()
@@ -230,15 +249,11 @@ class PayActivity : AppCompatActivity() {
     }
 
 
-
-
-    // Función de inicio para realizar el pago
     private fun initiateCreditCardPayment(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Llama al diálogo de agregar tarjeta
         showAddCreditCardDialog(payItems, orderRequest)
     }
 
-    // Función de proceso de pago
     private fun processCreditCardPayment(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Lógica para el pago con tarjeta de crédito
         AlertDialog.Builder(this)
@@ -256,5 +271,5 @@ class PayActivity : AppCompatActivity() {
             .setNegativeButton("No", null)
             .show()
     }
-
 }
+
