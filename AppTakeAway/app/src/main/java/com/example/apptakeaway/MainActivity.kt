@@ -18,6 +18,8 @@ import android.widget.ProgressBar // Importa ProgressBar para mostrar carga
 import android.widget.Toast // Importa Toast para mostrar mensajes breves
 import androidx.appcompat.app.AppCompatActivity // Importa AppCompatActivity para la actividad base
 import androidx.appcompat.widget.SearchView // Importa SearchView para búsqueda de productos
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager // Importa GridLayoutManager para el diseño en cuadrícula
 import androidx.recyclerview.widget.RecyclerView // Importa RecyclerView para listas de elementos
 import com.example.apptakeaway.adapter.ProductAdapter // Importa el adaptador para productos
@@ -44,6 +46,8 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         // Recuperar datos del Intent solo dentro del onCreate
         userId = intent.getIntExtra("userId", -1)
         email = intent.getStringExtra("email") ?: ""
@@ -65,8 +69,11 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
         progressBar = findViewById(R.id.progressBar) // Inicializa la barra de progreso
 
-
-        loadProducts()
+        val adapter = ProductAdapter { product ->
+            // Aquí manejas la acción de añadir al carrito
+            cartViewModel.addToCart(product)
+        }
+        loadProducts(adapter, this)
 
         // Realizar acciones basadas en si el usuario ha iniciado sesión
         if (!isLoggedIn) {
@@ -151,9 +158,9 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
     }
 
     // Método para cargar los productos
-    private fun loadProducts() {
+   private fun loadProducts(adapter: ProductAdapter, owner: LifecycleOwner) {
         progressBar.visibility = View.VISIBLE // Muestra la barra de progreso
-        productViewModel.loadProducts() // Llama al método de ViewModel para cargar productos
+        productViewModel.socketloadProducts(adapter, owner) // Llama al método de ViewModel para cargar productos
     }
 
     // Método para configurar el RecyclerView
@@ -245,5 +252,6 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         if (itemCount > 0) {
             Toast.makeText(this, "Items en el carrito: $itemCount", Toast.LENGTH_SHORT).show() // Mensaje al usuario
         }
+
     }
 }
