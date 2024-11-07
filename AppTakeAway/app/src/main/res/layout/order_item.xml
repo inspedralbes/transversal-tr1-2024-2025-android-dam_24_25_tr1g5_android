@@ -1,32 +1,46 @@
-<!-- res/layout/item_order.xml -->
+<!-- order_item.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:layout_marginBottom="8dp">
 
+    <!-- Detalles de la orden -->
     <TextView
         android:id="@+id/orderIdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order ID"
+        android:text="Orden ID: 12345"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/orderDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date" />
+        android:text="Fecha: 01/01/2023"
+        android:layout_marginTop="4dp" />
 
     <TextView
         android:id="@+id/orderTotalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total" />
+        android:text="Total: $0.00"
+        android:layout_marginTop="4dp" />
 
     <TextView
         android:id="@+id/orderStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status" />
+        android:text="Estado: Pendiente"
+        android:layout_marginTop="4dp" />
+
+    <!-- RecyclerView anidado para mostrar productos de la orden -->
+    <RecyclerView
+        android:id="@+id/productsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
 </LinearLayout>

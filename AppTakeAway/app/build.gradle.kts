@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("com.google.code.gson:gson:2.8.8")
     implementation ("io.socket:socket.io-client:2.0.1")
     implementation ("org.json:json:20210307")
@@ -93,7 +94,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.androidx.ui.test.android)
     implementation(libs.androidx.ui.test.android)
-    kapt("com.github.bumptech.glide:compiler:4.12.0") 
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // AndroidX dependencies
     implementation("androidx.appcompat:appcompat:1.6.1")

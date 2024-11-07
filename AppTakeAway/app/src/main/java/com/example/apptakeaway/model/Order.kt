@@ -10,6 +10,8 @@ data class Order(
     val date: Date,
     val status: String,
     val pay: Int,
+    val products: List<Product> // Lista de productos en la orden
 )
+
 
 // Define los modelos de datos para Order, OrderLine y Product si aún no están definidos.
