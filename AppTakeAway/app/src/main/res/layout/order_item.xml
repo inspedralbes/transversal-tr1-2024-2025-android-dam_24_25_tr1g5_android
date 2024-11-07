@@ -1,46 +1,39 @@
-<!-- order_item.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="8dp">
+    android:padding="8dp">
 
-    <!-- Detalles de la orden -->
+    <!-- Información general de la orden -->
     <TextView
-        android:id="@+id/orderIdTextView"
+        android:id="@+id/orderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Orden ID: 12345"
+        android:text="Orden #123 - Total: $59.99"
+        android:textStyle="bold"
         android:textSize="16sp"
-        android:textStyle="bold" />
-
+        android:paddingBottom="8dp" />
     <TextView
-        android:id="@+id/orderDateTextView"
+        android:id="@+id/orderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fecha: 01/01/2023"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/orderTotalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total: $0.00"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/orderStatusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
         android:text="Estado: Pendiente"
-        android:layout_marginTop="4dp" />
+        android:textColor="#FF5722"
+        android:textSize="16sp" />
+    <!-- Botón para expandir o colapsar el RecyclerView de OrderLines -->
+    <Button
+        android:id="@+id/toggleOrderLinesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Detalles" />
 
-    <!-- RecyclerView anidado para mostrar productos de la orden -->
+    <!-- RecyclerView anidado para mostrar los OrderLines -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productsRecyclerView"
+        android:id="@+id/orderLinesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:nestedScrollingEnabled="false"
+        android:visibility="gone" />
 
 </LinearLayout>

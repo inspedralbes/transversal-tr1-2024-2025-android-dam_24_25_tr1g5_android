@@ -1,49 +1,51 @@
 package com.example.apptakeaway
-
-import OrderAdapter
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.apptakeaway.R
+import com.example.apptakeaway.adapter.OrderAdapter
 import com.example.apptakeaway.api.RetrofitClient
 import com.example.apptakeaway.api.SocketManager
 import com.example.apptakeaway.model.Order
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.emitter.Emitter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class OrderActivity : AppCompatActivity() {
     private val socket = SocketManager.getSocket()
+    private lateinit var ordersRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
 
-        // Configura el RecyclerView
-        val ordersRecyclerView = findViewById<RecyclerView>(R.id.ordersRecyclerView)
+        ordersRecyclerView = findViewById(R.id.ordersRecyclerView)
         ordersRecyclerView.layoutManager = LinearLayoutManager(this)
 
         socket.connect()
         socket.on("orders", updateOrders)
 
+        // Recuperar el userId
         val userId = intent.getIntExtra("userId", -1)
+
+        // Llamada inicial para obtener las órdenes
         loadOrdersForUser(userId)
-        setupBackButton()
     }
-
-    private fun setupBackButton() {
-        findViewById<ImageButton>(R.id.backButton).setOnClickListener {
-            finish()
-        }
-    }
-
     private fun displayOrders(orders: List<Order>, userId: Int) {
         // Filtrar las órdenes para que solo se muestren las del usuario específico
         val userOrders = orders.filter { order -> order.userId == userId }
@@ -59,11 +61,26 @@ class OrderActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.ordersRecyclerView).adapter = orderAdapter
     }
 
+    private val updateOrders = Emitter.Listener { args ->
+        val data = args[0] as String
+        val gson = Gson()
+        val listType = object : TypeToken<List<Order>>() {}.type
+        val updatedOrders: List<Order> = gson.fromJson(data, listType)
+
+        runOnUiThread {
+            updatedOrders.forEach { updatedOrder ->
+                orderAdapter.updateOrderStatus(updatedOrder.id, updatedOrder.status)
+            }
+        }
+    }
+
+    // Llamada en Retrofit
     private fun loadOrdersForUser(userId: Int) {
         if (userId == -1) {
             Toast.makeText(this, "ID de usuario no válido", Toast.LENGTH_SHORT).show()
             return
         }
+
 
         val call = RetrofitClient.apiService.getOrdersForUser(userId)
         call.enqueue(object : Callback<List<Order>> {
@@ -85,17 +102,5 @@ class OrderActivity : AppCompatActivity() {
                 Toast.makeText(this@OrderActivity, "Error al cargar órdenes", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-    // Llamada en el Listener del socket
-    private val updateOrders = Emitter.Listener { args ->
-        val data = args[0] as String
-        val gson = Gson()
-        val listType = object : TypeToken<List<Order>>() {}.type
-        val orders: List<Order> = gson.fromJson(data, listType)
-
-        // Asegurarse de pasar el userId al llamar displayOrders
-        val userId = intent.getIntExtra("userId", -1)
-        runOnUiThread { displayOrders(orders, userId) } // Filtrar por userId en el hilo principal
     }
 }
