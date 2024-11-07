@@ -59,7 +59,7 @@ android {
 }
 
 dependencies {
-    implementation ("io.socket:socket.io-client:2.0.0")
+    implementation ("io.socket:socket.io-client:2.0.1")
     implementation ("org.json:json:20210307")
     implementation ("com.android.volley:volley:1.2.1")
     // Glide for image loading
