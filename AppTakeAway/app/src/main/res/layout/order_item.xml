@@ -37,7 +37,7 @@
         android:layout_marginTop="4dp" />
 
     <!-- RecyclerView anidado para mostrar productos de la orden -->
-    <RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
