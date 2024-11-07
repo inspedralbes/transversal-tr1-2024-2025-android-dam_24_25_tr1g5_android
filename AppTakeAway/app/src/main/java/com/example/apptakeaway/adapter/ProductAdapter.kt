@@ -8,6 +8,7 @@ package com.example.apptakeaway.adapter // Paquete donde se encuentra el adaptad
  * Además, se implementa un callback para manejar la acción de añadir un producto al carrito.
  */
 
+import android.util.Log
 import android.view.LayoutInflater // Para inflar los layouts de vista
 import android.view.View // Clase base para la visualización de componentes
 import android.view.ViewGroup // Contenedor de vistas
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView // Componente para mostrar list
 import com.bumptech.glide.Glide // Biblioteca para cargar imágenes
 import com.example.apptakeaway.R // Recursos de la aplicación
 import com.example.apptakeaway.model.Product // Modelo de los productos
+import io.socket.emitter.Emitter
+import org.json.JSONArray
 
 // Clase que representa el adaptador de productos
 class ProductAdapter(
@@ -74,4 +77,11 @@ class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem // Compara el contenido completo del objeto
     }
+    // Listener para el evento "products"
+    private val onProducts = Emitter.Listener { args ->
+        val data = args[0] as JSONArray
+        Log.d("SocketEvent", "Actualización de productos: $data")
+        // Aquí puedes manejar los datos y actualizar la UI
+    }
+
 }

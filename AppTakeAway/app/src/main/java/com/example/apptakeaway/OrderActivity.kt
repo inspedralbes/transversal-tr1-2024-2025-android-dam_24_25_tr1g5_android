@@ -103,4 +103,14 @@ class OrderActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Desconectar los listeners para evitar fugas de memoria
+        socket.off("products", updateOrders)
+
+        // Desconectar del socket cuando la actividad se destruye
+        socket.disconnect()
+    }
 }
