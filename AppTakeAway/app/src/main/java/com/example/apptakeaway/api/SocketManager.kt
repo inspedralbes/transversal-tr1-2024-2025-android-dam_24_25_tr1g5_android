@@ -7,18 +7,19 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 object SocketManager {
-    var socket: Socket? = null
+//    var socket: Socket? = null
+    lateinit var socket: Socket
 
     // Conectar con el servidor Socket.IO
     fun connect() {
         try {
             // URL de tu servidor (ajusta según sea necesario)
-            socket = IO.socket("http://192.168.1.16:3000/") // Reemplaza con la URL de tu servidor
+            socket = IO.socket("http://10.0.2.2:3000/") // Reemplaza con la URL de tu servidor
 
-            socket?.connect() // Conectar al servidor
+            socket.connect() // Conectar al servidor
 
             // Escuchar el evento 'products' cuando los productos cambian
-            socket?.on("products") { args ->
+            socket.on("products") { args ->
                 val updatedProducts = args[0] as? List<*> ?: emptyList<Any>()
                 Log.d("SocketManager", "Productos actualizados: $updatedProducts")
 

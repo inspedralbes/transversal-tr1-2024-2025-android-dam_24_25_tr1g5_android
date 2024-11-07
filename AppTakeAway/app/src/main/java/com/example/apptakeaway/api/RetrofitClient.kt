@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory // Convertidor de Gson para
 // Objeto singleton que maneja la configuración de Retrofit
 object RetrofitClient {
     // URL base de la API
-    private const val BASE_URL = "http://192.168.1.16:3000/"
+    private const val BASE_URL = "http://10.0.2.2:3000/"
 
     // Instancia de Retrofit creada de manera perezosa
     private val retrofit by lazy {
