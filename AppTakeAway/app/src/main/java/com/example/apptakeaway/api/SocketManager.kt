@@ -6,8 +6,8 @@ import io.socket.client.Socket
 import java.net.URISyntaxException
 
 object SocketManager {
-    private const val SOCKET_URL = "http://192.168.1.16:3000/" // Cambia esto a la URL de tu servidor
-    private var socket: Socket? = null
+    private const val SOCKET_URL = "http://10.0.2.2:3000/" // Cambia esto a la URL de tu servidor
+    private lateinit var socket: Socket
 
     init {
         try {
@@ -20,15 +20,15 @@ object SocketManager {
         }
     }
 
-    fun getSocket(): Socket? {
+    fun getSocket(): Socket {
         return socket
     }
 
     fun connect() {
-        socket?.connect()
+        socket.connect()
     }
 
     fun disconnect() {
-        socket?.disconnect()
+        socket.disconnect()
     }
 }

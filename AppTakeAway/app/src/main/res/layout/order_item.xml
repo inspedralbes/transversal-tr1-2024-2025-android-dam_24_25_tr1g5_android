@@ -1,58 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- res/layout/item_order.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_margin="8dp"
-    android:backgroundTint="#EFEFEF"
-    android:layout_gravity="center">
-
-    <!-- Order ID -->
-
-    <!-- Order Date -->
-
-    <!-- Order Total -->
-
-    <!-- Order Status -->
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/order_id"
+        android:id="@+id/orderIdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:text="Orden ID: 4"
-        android:textColor="#333333"
-        android:textSize="18sp"
+        android:text="Order ID"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/order_date"
+        android:id="@+id/orderDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:text="Fecha: 06/11/2024"
-        android:textColor="#555555"
-        android:textSize="16sp" />
+        android:text="Date" />
 
     <TextView
-        android:id="@+id/order_status"
+        android:id="@+id/orderTotalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:text="Estado: Pendiente"
-        android:textColor="#FF5722"
-        android:textSize="16sp" />
+        android:text="Total" />
 
     <TextView
-        android:id="@+id/order_total"
+        android:id="@+id/orderStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:text="Total: $225.95"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:text="Status" />
 </LinearLayout>

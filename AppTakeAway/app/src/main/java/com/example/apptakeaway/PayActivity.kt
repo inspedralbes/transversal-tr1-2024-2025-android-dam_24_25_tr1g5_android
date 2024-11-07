@@ -28,6 +28,7 @@ import com.example.apptakeaway.model.ProductOrder
 import com.example.apptakeaway.model.Total
 import com.example.apptakeaway.viewmodel.CartViewModel
 import io.socket.emitter.Emitter
+import org.json.JSONArray
 import org.json.JSONObject
 
 class PayActivity : AppCompatActivity() {
@@ -52,11 +53,11 @@ class PayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay)
 
-        socket?.connect()
+        socket.connect()
 
         // Escuchar eventos: orders y products
-        socket?.on("orders", onOrders)
-        socket?.on("products", onProducts)
+        socket.on("orders", onOrders)
+        socket.on("products", onProducts)
 
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
@@ -278,7 +279,7 @@ class PayActivity : AppCompatActivity() {
 
     // Listener para el evento "products"
     private val onProducts = Emitter.Listener { args ->
-        val data = args[0] as JSONObject
+        val data = args[0] as JSONArray
         Log.d("SocketEvent", "Actualización de productos: $data")
         // Aquí puedes manejar los datos y actualizar la UI
     }
@@ -287,11 +288,11 @@ class PayActivity : AppCompatActivity() {
         super.onDestroy()
 
         // Desconectar los listeners para evitar fugas de memoria
-        socket?.off("orders", onOrders)
-        socket?.off("products", onProducts)
+        socket.off("orders", onOrders)
+        socket.off("products", onProducts)
 
         // Desconectar del socket cuando la actividad se destruye
-        socket?.disconnect()
+        socket.disconnect()
     }
 
 }
