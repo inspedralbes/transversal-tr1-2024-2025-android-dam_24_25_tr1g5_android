@@ -20,7 +20,6 @@ class ProfileActivity : AppCompatActivity() {
         val passwordTextView = findViewById<TextView>(R.id.passwordTextView)
         val firstNameTextView = findViewById<TextView>(R.id.firstNameTextView)
         val lastNameTextView = findViewById<TextView>(R.id.lastNameTextView)
-        val paymentMethodTextView = findViewById<TextView>(R.id.paymentMethodTextView)
 
         setupBackButton()
         // Si no está logueado, muestra un mensaje
@@ -44,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
         passwordTextView.text = "Contraseña: [No se muestra por motivos de seguridad]" // Omitido
         firstNameTextView.text = "Nombre: $firstName"
         lastNameTextView.text = "Apellido: $lastName"
-        paymentMethodTextView.text = "Método de Pago: $paymentMethod"
+
 
 
 

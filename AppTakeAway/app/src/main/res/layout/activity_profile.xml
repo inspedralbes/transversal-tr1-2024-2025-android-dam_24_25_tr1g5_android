@@ -97,18 +97,5 @@
             android:paddingTop="8dp"
             android:paddingBottom="4dp"/>
 
-
-        <!-- Método de Pago -->
-        <TextView
-            android:id="@+id/paymentMethodTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Método de Pago:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
-
     </LinearLayout>
 </ScrollView>

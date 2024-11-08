@@ -4,48 +4,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0E0E0"
+    android:background="#F5F5F5"
     android:padding="16dp">
 
     <!-- Logo de la App -->
+
+    <!-- Botón de Seguir Como Invitado -->
+
+    <!-- Botón de Registrarse/Iniciar Sesión -->
+
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginBottom="40dp"
         android:src="@drawable/logo_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guestButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/registerButton"
-        android:layout_marginBottom="40dp"/>
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón de Registrarse/Iniciar Sesión -->
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Registrar-se / Iniciar sesión"
-        android:textColor="@android:color/white"
-        android:background="@drawable/button_background"
-    android:padding="16dp"
-    android:textSize="18sp"
-    app:layout_constraintTop_toBottomOf="@id/logoImageView"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginBottom="20dp"/>
-
-    <!-- Botón de Seguir Como Invitado -->
     <Button
         android:id="@+id/guestButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/button_background"
+        android:padding="16dp"
         android:text="Continuar como invitado"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button_background"
-    android:padding="16dp"
-    android:textSize="18sp"
-    app:layout_constraintTop_toBottomOf="@id/registerButton"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+        android:padding="16dp"
+        android:text="Registrar-se / Iniciar sesión"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guestButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

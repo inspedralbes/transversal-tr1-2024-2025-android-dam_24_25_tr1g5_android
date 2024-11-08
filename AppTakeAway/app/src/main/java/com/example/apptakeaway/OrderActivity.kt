@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +46,7 @@ class OrderActivity : AppCompatActivity() {
 
         // Llamada inicial para obtener las órdenes
         loadOrdersForUser(userId)
+        setupBackButton()
     }
     private fun displayOrders(orders: List<Order>, userId: Int) {
         // Filtrar las órdenes para que solo se muestren las del usuario específico
@@ -74,6 +76,11 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupBackButton() {
+        findViewById<ImageView>(R.id.backButton).setOnClickListener {
+            finish()
+        }
+    }
     // Llamada en Retrofit
     private fun loadOrdersForUser(userId: Int) {
         if (userId == -1) {
