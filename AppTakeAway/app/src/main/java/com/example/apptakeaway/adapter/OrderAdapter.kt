@@ -28,7 +28,7 @@ class OrderAdapter(private var orders: List<Order>) : RecyclerView.Adapter<Order
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
-        holder.orderTextView.text = "Orden #${order.id} - Total: $${order.total}"
+        holder.orderTextView.text = "Orden #${order.id}\nTotal: $${order.total}"
         holder.orderStatus.text = "Estado: ${order.status}"
 
         // Configuración de OrderLines...

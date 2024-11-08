@@ -209,7 +209,7 @@ class PayActivity : AppCompatActivity() {
 
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
-            .setTitle("Añadir tarjeta de crédito")
+            .setTitle("")
             .setPositiveButton("Añadir") { _, _ ->
                 val cardNumber = dialogView.findViewById<EditText>(R.id.cardNumberEditText).text.toString()
                 val cardHolder = dialogView.findViewById<EditText>(R.id.cardHolderNameEditText).text.toString()
