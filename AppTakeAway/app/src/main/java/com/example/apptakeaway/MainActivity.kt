@@ -18,12 +18,23 @@ import android.widget.ProgressBar // Importa ProgressBar para mostrar carga
 import android.widget.Toast // Importa Toast para mostrar mensajes breves
 import androidx.appcompat.app.AppCompatActivity // Importa AppCompatActivity para la actividad base
 import androidx.appcompat.widget.SearchView // Importa SearchView para búsqueda de productos
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager // Importa GridLayoutManager para el diseño en cuadrícula
 import androidx.recyclerview.widget.RecyclerView // Importa RecyclerView para listas de elementos
 import com.example.apptakeaway.adapter.ProductAdapter // Importa el adaptador para productos
+import com.example.apptakeaway.api.SocketManager
+import com.example.apptakeaway.model.Order
+import com.example.apptakeaway.model.Product
 import com.example.apptakeaway.model.User
 import com.example.apptakeaway.viewmodel.CartViewModel // Importa el ViewModel del carrito
 import com.example.apptakeaway.viewmodel.ProductViewModel // Importa el ViewModel de productos
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import io.socket.emitter.Emitter
+import org.json.JSONArray
+import org.json.JSONObject
+import org.json.JSONString
 
 class MainActivity : AppCompatActivity() { // Clase principal de la actividad
     private lateinit var recyclerView: RecyclerView // Vista para la lista de productos
@@ -31,6 +42,8 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
     private lateinit var productViewModel: ProductViewModel // ViewModel para manejar la lógica de productos
     private lateinit var cartViewModel: CartViewModel // ViewModel para manejar el carrito
     private lateinit var progressBar: ProgressBar // Barra de progreso para mostrar carga de datos
+    private val socket = SocketManager.getSocket()
+
 
     private var userId: Int = -1
     private var email: String = ""
@@ -55,6 +68,14 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         productViewModel = ProductViewModel() // Inicializa el ViewModel de productos
         cartViewModel = (application as AppTakeAwayApplication).cartViewModel // Obtiene el ViewModel del carrito
 
+
+        socket.connect()
+
+        // Escuchar eventos: orders y products
+        socket.on("products", onProducts)
+
+
+
         setupRecyclerView() // Configura el RecyclerView
         setupSearchView() // Configura la vista de búsqueda
         setupCartButton() // Configura el botón del carrito
@@ -74,6 +95,32 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
             // Aquí puedes implementar cualquier otra lógica que necesites para usuarios no autenticados.
         }
     }
+
+
+
+    // Listener para el evento "products"
+    private val onProducts = Emitter.Listener { args ->
+        val data = args[0] as String
+        Log.d("SocketEvent", "Actualización de productos: $data")
+        // Aquí puedes manejar los datos y actualizar la UI
+        val gson = Gson()
+        val listType = object : TypeToken<List<Product>>() {}.type
+        val updateProduct: List<Product> = gson.fromJson(data, listType)
+
+        updateProducts(updateProduct)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Desconectar los listeners para evitar fugas de memoria
+
+        socket.off("products", onProducts)
+
+        // Desconectar del socket cuando la actividad se destruye
+        socket.disconnect()
+    }
+
 
     private fun setupUserButton() {
         val userButton = findViewById<ImageButton>(R.id.userButton)
@@ -192,8 +239,8 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
     // Método para observar cambios en la lista de productos
     private fun observeProducts() {
-        productViewModel.products.observe(this) { products -> // Observa el LiveData de productos
-            progressBar.visibility = View.GONE // Oculta la barra de progreso al cargar productos
+    productViewModel.products.observe(this) { products -> // Observa el LiveData de productos
+    progressBar.visibility = View.GONE // Oculta la barra de progreso al cargar productos
 
             if (products.isNotEmpty()) {
                 productAdapter.submitList(products) // Actualiza el adaptador con la lista de productos
@@ -203,7 +250,20 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
                 Log.d("MainActivity", "No se encontraron productos") // Log de depuración
             }
         }
+}
+    private fun updateProducts(products:List<Product>) {
+//        productViewModel.products.observe(this) { products -> // Observa el LiveData de productos
+//            progressBar.visibility = View.GONE // Oculta la barra de progreso al cargar productos
+
+        if (products.isNotEmpty()) {
+            productAdapter.submitList(products) // Actualiza el adaptador con la lista de productos
+            Log.d("MainActivity", "Productos cargados: ${products.size}") // Log de depuración
+        } else {
+            Toast.makeText(this, "No se encontraron productos", Toast.LENGTH_SHORT).show() // Mensaje si no hay productos
+            Log.d("MainActivity", "No se encontraron productos") // Log de depuración
+        }
     }
+
 
     // Método para configurar el botón del carrito
     private fun setupCartButton() {

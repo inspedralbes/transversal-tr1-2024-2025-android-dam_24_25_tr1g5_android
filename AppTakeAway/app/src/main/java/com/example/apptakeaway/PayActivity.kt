@@ -43,8 +43,6 @@ class PayActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var paymentMethodGroup: RadioGroup
 
-    private val socket = SocketManager.getSocket()
-
     private var userId: Int = -1 // Declara la variable para almacenar el userId
     private var isLoggedIn: Boolean = false
 
@@ -52,12 +50,6 @@ class PayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay)
-
-        socket.connect()
-
-        // Escuchar eventos: orders y products
-        socket.on("orders", onOrders)
-        socket.on("products", onProducts)
 
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
@@ -269,14 +261,6 @@ class PayActivity : AppCompatActivity() {
             .setNegativeButton("No", null)
             .show()
     }
-    override fun onDestroy() {
-        super.onDestroy()
 
-        // Desconectar los listeners para evitar fugas de memoria
-        socket.off("products", onProducts)
-
-        // Desconectar del socket cuando la actividad se destruye
-        socket.disconnect()
-    }
 
 }
