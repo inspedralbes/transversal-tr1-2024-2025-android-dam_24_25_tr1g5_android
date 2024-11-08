@@ -23,12 +23,4 @@ object SocketManager {
     fun getSocket(): Socket {
         return socket
     }
-
-    fun connect() {
-        socket.connect()
-    }
-
-    fun disconnect() {
-        socket.disconnect()
-    }
 }

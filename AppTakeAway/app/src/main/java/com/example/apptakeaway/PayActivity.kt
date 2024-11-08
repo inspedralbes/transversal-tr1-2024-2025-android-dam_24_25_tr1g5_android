@@ -43,8 +43,6 @@ class PayActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var paymentMethodGroup: RadioGroup
 
-    private val socket = SocketManager.getSocket()
-
     private var userId: Int = -1 // Declara la variable para almacenar el userId
     private var isLoggedIn: Boolean = false
 
@@ -52,12 +50,6 @@ class PayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay)
-
-        socket.connect()
-
-        // Escuchar eventos: orders y products
-        socket.on("orders", onOrders)
-        socket.on("products", onProducts)
 
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
@@ -270,29 +262,5 @@ class PayActivity : AppCompatActivity() {
             .show()
     }
 
-
-    private val onOrders = Emitter.Listener { args ->
-        val data = args[0] as JSONObject
-        Log.d("SocketEvent", "Nuevo pedido recibido: $data")
-        // Aquí puedes manejar los datos y actualizar la UI
-    }
-
-    // Listener para el evento "products"
-    private val onProducts = Emitter.Listener { args ->
-        val data = args[0] as JSONArray
-        Log.d("SocketEvent", "Actualización de productos: $data")
-        // Aquí puedes manejar los datos y actualizar la UI
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        // Desconectar los listeners para evitar fugas de memoria
-        socket.off("orders", onOrders)
-        socket.off("products", onProducts)
-
-        // Desconectar del socket cuando la actividad se destruye
-        socket.disconnect()
-    }
 
 }
