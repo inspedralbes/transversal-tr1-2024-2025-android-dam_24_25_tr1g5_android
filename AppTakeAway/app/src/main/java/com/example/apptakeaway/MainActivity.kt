@@ -252,9 +252,6 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         }
 }
     private fun updateProducts(products:List<Product>) {
-//        productViewModel.products.observe(this) { products -> // Observa el LiveData de productos
-//            progressBar.visibility = View.GONE // Oculta la barra de progreso al cargar productos
-
         if (products.isNotEmpty()) {
             productAdapter.submitList(products) // Actualiza el adaptador con la lista de productos
             Log.d("MainActivity", "Productos cargados: ${products.size}") // Log de depuración
