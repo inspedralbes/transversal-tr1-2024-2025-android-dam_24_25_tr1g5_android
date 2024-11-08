@@ -1,60 +1,56 @@
-<!-- item_product.xml -->
+<!-- item_order_product.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="16dp"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="?attr/selectableItemBackground"
     android:layout_marginBottom="8dp">
 
-    <!-- Imagen del Producto -->
+    <!-- Imagen del producto en la orden -->
     <ImageView
-        android:id="@+id/productImageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="8dp"
-        android:scaleType="centerCrop" />
+        android:id="@+id/orderProductImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Imagen del producto en la orden" />
 
-    <!-- Nombre del Producto -->
-    <TextView
-        android:id="@+id/productNameTextView"
-        android:layout_width="match_parent"
+    <!-- Detalles del producto en la orden -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Product Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <!-- Descripción del Producto -->
-    <TextView
-        android:id="@+id/productDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Product Description"
-        android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/orderProductNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre del Producto"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <!-- Precio del Producto -->
-    <TextView
-        android:id="@+id/productPriceTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Precio: $100.0"
-        android:textSize="16sp"
-        android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/orderProductSizeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tamaño: M"
+            android:layout_marginTop="4dp" />
 
-    <!-- Colores disponibles -->
-    <TextView
-        android:id="@+id/productColorsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Colores: Rojo, Azul"
-        android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/orderProductPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precio: $10.00"
+            android:layout_marginTop="4dp" />
 
-    <!-- Stock del Producto -->
-    <TextView
-        android:id="@+id/productStockTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Stock: 10" />
+        <TextView
+            android:id="@+id/orderProductStockTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cantidad disponible: 5"
+            android:layout_marginTop="4dp" />
 
+    </LinearLayout>
 </LinearLayout>

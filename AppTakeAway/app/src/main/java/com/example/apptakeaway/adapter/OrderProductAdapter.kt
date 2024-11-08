@@ -1,30 +1,24 @@
-package com.example.apptakeaway.adapter // Paquete donde se encuentra el adaptador
+package com.example.apptakeaway.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.apptakeaway.R
+import com.example.apptakeaway.model.Order
 import com.example.apptakeaway.model.Product
 
-/**
- * Adaptador para mostrar los productos de una orden.
- * Cada ítem contiene información sobre un producto asociado a la orden.
- */
-class OrderProductAdapter(private val products: List<Product>) : RecyclerView.Adapter<OrderProductAdapter.OrderProductViewHolder>() {
+class OrderProductAdapter(private val orderProducts: List<Product>) : RecyclerView.Adapter<OrderProductAdapter.OrderProductViewHolder>() {
 
     class OrderProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productNameTextView: TextView = itemView.findViewById(R.id.productNameTextView)
-        val productDescriptionTextView: TextView = itemView.findViewById(R.id.productDescriptionTextView)
-        val productPriceTextView: TextView = itemView.findViewById(R.id.productPriceTextView)
-        val productColorsTextView: TextView = itemView.findViewById(R.id.productColorsTextView)
-        val productStockTextView: TextView = itemView.findViewById(R.id.productStockTextView)
-        val productImageView: ImageView = itemView.findViewById(R.id.productImageView) // Aquí se agregará la imagen
+        val orderProductImageView: ImageView = itemView.findViewById(R.id.orderProductImageView)
+        val orderProductNameTextView: TextView = itemView.findViewById(R.id.orderProductNameTextView)
+        val orderProductSizeTextView: TextView = itemView.findViewById(R.id.orderProductSizeTextView)
+        val orderProductPriceTextView: TextView = itemView.findViewById(R.id.orderProductPriceTextView)
+        val orderProductStockTextView: TextView = itemView.findViewById(R.id.orderProductStockTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderProductViewHolder {
@@ -33,22 +27,21 @@ class OrderProductAdapter(private val products: List<Product>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: OrderProductViewHolder, position: Int) {
-        val product = products[position]
+        val orderProduct = orderProducts[position]
 
-        holder.productNameTextView.text = product.name
-        holder.productDescriptionTextView.text = product.description
-        holder.productPriceTextView.text = "Precio: \$${product.price}"
-        holder.productColorsTextView.text = "Colores: ${product.colors}"
-        holder.productStockTextView.text = "Stock: ${product.stock}"
+        // Asignar nombre, tamaño, precio y cantidad del producto en la orden
+        holder.orderProductNameTextView.text = orderProduct.name
+        holder.orderProductSizeTextView.text = "Tamaño: ${orderProduct.size}"
+        holder.orderProductPriceTextView.text = "Precio: $${orderProduct.price}"
+        holder.orderProductStockTextView.text = "Cantidad disponible: ${orderProduct.stock}"
 
-        // Usando Glide para cargar la imagen del producto
+        // Cargar la imagen con Glide
         Glide.with(holder.itemView.context)
-            .load("http://name.tr1-g5.dam.inspedralbes.cat:21787/" + product.imagePath)  // Cargar la imagen desde la URL
-            .placeholder(R.drawable.ic_placeholder)  // Imagen que aparece mientras se carga la imagen real
-            .error(R.drawable.user_icon)  // Imagen que aparece si ocurre un error al cargar
-            .into(holder.productImageView)
+            .load(orderProduct.imagePath) // URL o ruta de la imagen del producto
+            .placeholder(R.drawable.ic_placeholder) // Imagen de placeholder
+            .error(R.drawable.logo_name) // Imagen de error si falla la carga
+            .into(holder.orderProductImageView)
     }
 
-    override fun getItemCount(): Int = products.size
+    override fun getItemCount(): Int = orderProducts.size
 }
-

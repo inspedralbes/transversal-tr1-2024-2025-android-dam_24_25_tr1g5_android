@@ -1,20 +1,24 @@
+package com.example.apptakeaway.adapter
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apptakeaway.R
+import com.example.apptakeaway.adapter.OrderLineAdapter
 import com.example.apptakeaway.model.Order
-import java.text.SimpleDateFormat
-import java.util.Locale
 
-class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+class OrderAdapter(private var orders: List<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
-    class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val orderIdTextView: TextView = itemView.findViewById(R.id.orderIdTextView)
-        val orderDateTextView: TextView = itemView.findViewById(R.id.orderDateTextView)
-        val orderTotalTextView: TextView = itemView.findViewById(R.id.orderTotalTextView)
-        val orderStatusTextView: TextView = itemView.findViewById(R.id.orderStatusTextView)
+    // ViewHolder...
+    inner class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val orderTextView: TextView = view.findViewById(R.id.orderTextView)
+        val orderStatus: TextView = view.findViewById(R.id.orderStatus)
+        val toggleButton: Button = view.findViewById(R.id.toggleOrderLinesButton)
+        val orderLinesRecyclerView: RecyclerView = view.findViewById(R.id.orderLinesRecyclerView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -24,11 +28,34 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
-        holder.orderIdTextView.text = "Orden ID: ${order.id}"
-        holder.orderDateTextView.text = "Fecha: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(order.date)}"
-        holder.orderTotalTextView.text = "Total: ${order.total}"
-        holder.orderStatusTextView.text = "Estado: ${order.status}"
+        holder.orderTextView.text = "Orden #${order.id} - Total: $${order.total}"
+        holder.orderStatus.text = "Estado: ${order.status}"
+
+        // Configuración de OrderLines...
+        val orderLineAdapter = OrderLineAdapter(order.orderLines)
+        holder.orderLinesRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
+        holder.orderLinesRecyclerView.adapter = orderLineAdapter
+
+        // Toggle de detalles
+        holder.toggleButton.setOnClickListener {
+            if (holder.orderLinesRecyclerView.visibility == View.GONE) {
+                holder.orderLinesRecyclerView.visibility = View.VISIBLE
+                holder.toggleButton.text = "Ocultar Detalles"
+            } else {
+                holder.orderLinesRecyclerView.visibility = View.GONE
+                holder.toggleButton.text = "Ver Detalles"
+            }
+        }
     }
 
     override fun getItemCount(): Int = orders.size
+
+    // Método para actualizar solo el status de una orden específica
+    fun updateOrderStatus(orderId: Int, newStatus: String) {
+        val index = orders.indexOfFirst { it.id == orderId }
+        if (index != -1) {
+            orders[index].status = newStatus
+            notifyItemChanged(index, "status")
+        }
+    }
 }

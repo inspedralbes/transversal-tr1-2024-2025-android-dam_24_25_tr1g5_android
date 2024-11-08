@@ -7,7 +7,7 @@ package com.example.apptakeaway // Paquete donde se encuentra la clase MainActiv
  * Observa cambios en el ViewModel de productos y el ViewModel del carrito,
  * actualizando la interfaz de usuario en consecuencia.
  */
-
+import com.example.apptakeaway.OrderActivity
 import android.content.Intent // Importa Intent para navegar entre actividades
 import android.os.Bundle // Importa Bundle para pasar datos entre actividades
 import android.util.Log // Importa Log para registrar información de depuración

@@ -1,32 +1,39 @@
-<!-- res/layout/item_order.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
 
+    <!-- Información general de la orden -->
     <TextView
-        android:id="@+id/orderIdTextView"
+        android:id="@+id/orderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order ID"
-        android:textStyle="bold" />
+        android:text="Orden #123 - Total: $59.99"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingBottom="8dp" />
+    <TextView
+        android:id="@+id/orderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:text="Estado: Pendiente"
+        android:textColor="#FF5722"
+        android:textSize="16sp" />
+    <!-- Botón para expandir o colapsar el RecyclerView de OrderLines -->
+    <Button
+        android:id="@+id/toggleOrderLinesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Detalles" />
 
-    <TextView
-        android:id="@+id/orderDateTextView"
-        android:layout_width="wrap_content"
+    <!-- RecyclerView anidado para mostrar los OrderLines -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/orderLinesRecyclerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date" />
+        android:nestedScrollingEnabled="false"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/orderTotalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total" />
-
-    <TextView
-        android:id="@+id/orderStatusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status" />
 </LinearLayout>
