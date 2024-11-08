@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:background="@drawable/profile_background"
+    android:orientation="vertical"
     android:padding="8dp">
 
     <!-- Información general de la orden -->
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/orderTextView"
@@ -22,11 +26,6 @@
                 android:text="Orden #123 - Total: $59.99"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
 
             <TextView
                 android:id="@+id/orderStatus"
@@ -35,41 +34,33 @@
                 android:paddingBottom="4dp"
                 android:text="Estado: Pendiente"
                 android:textColor="#FF5722"
-                android:textSize="16sp" />
-        </TableRow>
+                android:textSize="14sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+        </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/orderLinesRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone" />
-        </TableRow>
+        <Button
+            android:id="@+id/toggleOrderLinesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/cart_item_background"
+            android:elevation="2dp"
+            android:paddingStart="12dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="6dp"
+            android:text="Ver Detalles"
+            android:textColor="#007BFF"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
-
-    <Button
-        android:id="@+id/toggleOrderLinesButton"
-        android:layout_width="56dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_arrow_down"
-        android:elevation="2dp"
-        android:paddingStart="12dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp"
-        android:text="Ver Detalles"
-        android:textColor="#007BFF"
-        android:textSize="14sp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/orderLinesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:visibility="gone" />
 
     <!-- Botón más sutil para expandir o colapsar el RecyclerView de OrderLines -->
 

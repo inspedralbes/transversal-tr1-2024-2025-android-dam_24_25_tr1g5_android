@@ -55,6 +55,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Carrito de compras" />
 
+    <TextView
+        android:id="@+id/cartItemCount"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:background="@drawable/rounded_cart_button_background"
+        android:gravity="center"
+        android:text="5"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/cartButton"
+        app:layout_constraintTop_toTopOf="@id/cartButton" />
+
     <!-- RecyclerView para mostrar productos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

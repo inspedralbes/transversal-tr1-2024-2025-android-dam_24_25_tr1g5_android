@@ -6,7 +6,7 @@ import io.socket.client.Socket
 import java.net.URISyntaxException
 
 object SocketManager {
-    private const val SOCKET_URL = "http://192.168.1.20:3000/" // Cambia esto a la URL de tu servidor
+    private const val SOCKET_URL = "http://name.tr1-g5.dam.inspedralbes.cat:21787/" // Cambia esto a la URL de tu servidor
     private lateinit var socket: Socket
 
     init {
