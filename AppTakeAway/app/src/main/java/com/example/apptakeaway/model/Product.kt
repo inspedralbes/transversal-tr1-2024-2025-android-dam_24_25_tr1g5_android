@@ -23,4 +23,4 @@ data class Product(
     val colors: String, // Colores disponibles para el producto
     val stock: Int, // Cantidad disponible en stock
     val activated: Int // Estado de activación del producto (por ejemplo, si está disponible para la compra)
-)
+) : Serializable
