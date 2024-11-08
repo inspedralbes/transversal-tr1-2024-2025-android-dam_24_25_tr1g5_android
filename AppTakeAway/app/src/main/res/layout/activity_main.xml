@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,8 +7,6 @@
     android:background="#E0E0E0">
 
     <!-- Icono de usuario a la izquierda de la barra de búsqueda -->
-
-
     <ImageButton
         android:id="@+id/userButton"
         android:layout_width="44dp"
@@ -19,7 +16,7 @@
         android:adjustViewBounds="true"
         android:background="@drawable/rounded_button_background"
         android:contentDescription="Icono de usuario"
-        android:padding="8dp"
+        android:padding="9dp"
         android:scaleType="centerInside"
         android:src="@drawable/user_icon"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,20 +52,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Carrito de compras" />
 
+    <!-- TextView en la esquina inferior derecha del carrito de compras -->
+
     <!-- RecyclerView para mostrar productos -->
+    <TextView
+        android:id="@+id/cartItemCount"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:background="@drawable/rounded_cart_button_background"
+        android:gravity="center"
+        android:text="5"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/cartButton"
+        app:layout_constraintTop_toTopOf="@id/cartButton" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:padding="8dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!-- ProgressBar para cargar contenido -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

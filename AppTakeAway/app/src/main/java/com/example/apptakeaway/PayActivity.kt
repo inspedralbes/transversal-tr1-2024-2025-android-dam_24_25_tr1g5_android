@@ -179,6 +179,8 @@ class PayActivity : AppCompatActivity() {
 
 
 
+
+
     private fun processPayInShop(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Lógica para el pago en tienda
         AlertDialog.Builder(this)
@@ -190,6 +192,7 @@ class PayActivity : AppCompatActivity() {
                 for (item in payItems) {
                     cartViewModel.removeFromCart(item)
                 }
+
                 Toast.makeText(this, "Pago en tienda confirmado.", Toast.LENGTH_SHORT).show()
                 finish() // Finaliza la actividad después de confirmar
             }

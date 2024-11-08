@@ -15,6 +15,7 @@ import android.view.View // Importa View para manejar vistas
 import android.widget.ImageButton // Importa ImageButton para manejar botones de imagen
 import android.widget.PopupMenu
 import android.widget.ProgressBar // Importa ProgressBar para mostrar carga
+import android.widget.TextView
 import android.widget.Toast // Importa Toast para mostrar mensajes breves
 import androidx.appcompat.app.AppCompatActivity // Importa AppCompatActivity para la actividad base
 import androidx.appcompat.widget.SearchView // Importa SearchView para búsqueda de productos
@@ -299,8 +300,19 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
     // Método para actualizar la insignia del carrito
     private fun updateCartBadge(itemCount: Int) {
         val cartButton = findViewById<ImageButton>(R.id.cartButton) // Obtiene el botón del carrito
+        val cartItemCount = findViewById<TextView>(R.id.cartItemCount) // Obtiene el TextView con el número de items
+
         if (itemCount > 0) {
-            Toast.makeText(this, "Items en el carrito: $itemCount", Toast.LENGTH_SHORT).show() // Mensaje al usuario
+            cartItemCount.text = itemCount.toString() // Actualiza el texto con el número de items
+            cartItemCount.visibility = View.VISIBLE // Muestra el TextView
+        } else {
+            cartItemCount.visibility = View.GONE // Oculta el TextView si no hay items
         }
+
+        // Log de depuración para verificar los cambios
+        Log.d("MainActivity", "Carrito actualizado con $itemCount items")
     }
+    // Método para actualizar la insignia del carrito
+
+
 }
