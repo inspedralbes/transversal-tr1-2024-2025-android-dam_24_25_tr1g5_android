@@ -1,114 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f5f5f5">
+    android:padding="16dp">
 
+    <!-- Botón de retroceso -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="Back Button" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Título de perfil -->
+    <TextView
+        android:id="@+id/profileTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:background="@drawable/profile_background">
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:text="Perfil"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp" />
 
-        <!-- Título del Perfil -->
+    <!-- ID del usuario -->
+    <TextView
+        android:id="@+id/idTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileTitle"
+        android:layout_marginTop="16dp"
+        android:text="ID: "
+        android:textSize="16sp" />
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Tornar enrere"
-            android:padding="16dp"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!-- Email del usuario -->
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idTextView"
+        android:layout_marginTop="8dp"
+        android:text="Email: "
+        android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Perfil de Usuario"
-            android:textColor="#3b5998"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif-medium"
-            android:layout_gravity="center"
-            android:paddingBottom="16dp"/>
+    <!-- Contraseña del usuario (oculta) -->
+    <TextView
+        android:id="@+id/passwordTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emailTextView"
+        android:layout_marginTop="8dp"
+        android:text="Contraseña: [No se muestra por motivos de seguridad]"
+        android:textSize="16sp" />
 
-        <!-- Sección de ID -->
-        <TextView
-            android:id="@+id/idTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ID:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
+    <!-- Nombre del usuario -->
+    <TextView
+        android:id="@+id/firstNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordTextView"
+        android:layout_marginTop="8dp"
+        android:text="Nombre: "
+        android:textSize="16sp" />
 
-        <!-- Email -->
-        <TextView
-            android:id="@+id/emailTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
+    <!-- Apellido del usuario -->
+    <TextView
+        android:id="@+id/lastNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firstNameTextView"
+        android:layout_marginTop="8dp"
+        android:text="Apellido: "
+        android:textSize="16sp" />
 
-        <!-- Contraseña -->
-        <TextView
-            android:id="@+id/passwordTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contraseña:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
+    <!-- Método de pago del usuario -->
+    <TextView
+        android:id="@+id/paymentMethodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lastNameTextView"
+        android:layout_marginTop="8dp"
+        android:text="Método de Pago: "
+        android:textSize="16sp" />
 
-        <!-- Nombre -->
-        <TextView
-            android:id="@+id/firstNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
+    <!-- Botón para editar el perfil -->
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paymentMethodTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Editar Perfil"
+        android:textColor="@android:color/white"
+        android:padding="12dp" />
 
-        <!-- Apellido -->
-        <TextView
-            android:id="@+id/lastNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apellido:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
-
-
-        <!-- Método de Pago -->
-        <TextView
-            android:id="@+id/paymentMethodTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Método de Pago:"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp"/>
-
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>
