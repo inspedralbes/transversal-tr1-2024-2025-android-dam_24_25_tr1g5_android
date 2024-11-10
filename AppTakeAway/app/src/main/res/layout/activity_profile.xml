@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/emailTextView"
         android:layout_marginTop="8dp"
-        android:text="Contrasenya: [No se muestra por motivos de seguridad]"
+        android:text="Contrasenya: [No es mostra per motius de seguretat]"
         android:textSize="16sp" />
 
     <!-- Nombre del usuario -->
