@@ -15,6 +15,7 @@ import com.example.apptakeaway.model.Product // Importa el modelo Product que re
 import com.example.apptakeaway.model.User
 
 import retrofit2.Call // Clase de Retrofit para manejar respuestas de API
+import retrofit2.Response
 import retrofit2.http.GET // Anotación de Retrofit para las solicitudes GET
 import retrofit2.http.POST
 import retrofit2.http.Body
@@ -41,4 +42,7 @@ interface ApiService {
 
     @POST("/creditCard")
     fun addCreditCard(@Body creditCard: CreditCard): Call<Void>
+
+    @PUT("user/{id}")
+    fun updateUser(@Path("id") userId: Int, @Body user: User): Call<Void>
 }

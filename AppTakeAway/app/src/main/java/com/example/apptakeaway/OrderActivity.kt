@@ -53,7 +53,7 @@ class OrderActivity : AppCompatActivity() {
         val userOrders = orders.filter { order -> order.userId == userId }
 
         if (userOrders.isEmpty()) {
-            Toast.makeText(this, "No se encontraron órdenes para este usuario", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "No s'han trobat ordres per a aquest usuari", Toast.LENGTH_SHORT)
                 .show()
             return
         }
@@ -84,7 +84,7 @@ class OrderActivity : AppCompatActivity() {
     // Llamada en Retrofit
     private fun loadOrdersForUser(userId: Int) {
         if (userId == -1) {
-            Toast.makeText(this, "ID de usuario no válido", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "ID d'usuari no vàlid", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -97,16 +97,16 @@ class OrderActivity : AppCompatActivity() {
                     if (orders != null) {
                         displayOrders(orders, userId) // Filtrar por userId específico
                     } else {
-                        Toast.makeText(this@OrderActivity, "No se encontraron órdenes", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@OrderActivity, "No es van trobar comandes", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this@OrderActivity, "Error en la respuesta: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@OrderActivity, "Error en la resposta: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Order>>, t: Throwable) {
-                Log.e("OrderActivity", "Error de red", t)
-                Toast.makeText(this@OrderActivity, "Error al cargar órdenes", Toast.LENGTH_SHORT).show()
+                Log.e("OrderActivity", "Error de xarxa", t)
+                Toast.makeText(this@OrderActivity, "Error al caregar la comanda", Toast.LENGTH_SHORT).show()
             }
         })
     }

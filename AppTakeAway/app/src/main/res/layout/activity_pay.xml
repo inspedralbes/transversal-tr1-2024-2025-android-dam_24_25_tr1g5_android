@@ -19,21 +19,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Checkout"
+        android:text="Pagament"
         android:textColor="#000000"
         android:textSize="20sp" />
 
     <!-- Payment Method Section -->
+
+    <!-- RadioGroup to allow only one selection -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Payment method"
+        android:text="Forma de pagament"
         android:textColor="#000000"
         android:textSize="16sp" />
 
-    <!-- RadioGroup to allow only one selection -->
     <RadioGroup
         android:id="@+id/paymentMethodGroup"
         android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:text="Credit card"
+                android:text="Targeta de crèdit"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
@@ -96,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:text="Pay in shop"
+                android:text="Pagar a la botiga"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
@@ -122,7 +123,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-medium"
-        android:text="My cart (1)"
+        android:text="El meu cistell (1)"
         android:textColor="#000000"
         android:textSize="16sp" />
 
@@ -165,6 +166,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="#000000"
-        android:text="Pay"
+        android:text="PAGA"
         android:textColor="#FFFFFF" />
 </LinearLayout>

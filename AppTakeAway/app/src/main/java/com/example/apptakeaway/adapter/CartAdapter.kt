@@ -89,7 +89,7 @@ class CartAdapter(
         fun bind(item: CartItem) {
             checkBox.isChecked = item.isSelected
             productName.text = item.product.name // Asignar el nombre del producto
-            productPrice.text = String.format("$%.2f", item.product.price.toDouble()) // Formatear el precio
+            productPrice.text = String.format("%.2f€", item.product.price.toDouble()) // Formatear el precio
             updateQuantityDisplay(item.quantity) // Actualizar la visualización de la cantidad
 
             // Cargar la imagen del producto usando Glide

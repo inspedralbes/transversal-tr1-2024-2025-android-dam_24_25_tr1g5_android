@@ -61,15 +61,15 @@ class RegisterActivity : AppCompatActivity() {
         var isValid = true
 
         if (email.isEmpty()) {
-            emailEditText.error = "El correo es obligatorio"
+            emailEditText.error = "El correu és obligatori"
             isValid = false
         } else if (!isValidEmail(email)) { // Validar el formato del correo electrónico
-            emailEditText.error = "El formato del correo no es válido"
+            emailEditText.error = "El format del correu no és vàlid"
             isValid = false
         }
 
         if (password.isEmpty()) {
-            passwordEditText.error = "La contraseña es obligatoria"
+            passwordEditText.error = "La contrasenya és obligatòria"
             isValid = false
         }
 
@@ -83,24 +83,24 @@ class RegisterActivity : AppCompatActivity() {
 
     // Método para registrar al usuario usando Retrofit
     private fun registerUser(user: User) {
-        Log.d("RegisterActivity", "Llamando al método postUser en ApiService")
+        Log.d("RegisterActivity", "Trucant al mètode postUser a ApiService")
         RetrofitClient.apiService.postUser(user).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@RegisterActivity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegisterActivity, "Usuari registrat correctament", Toast.LENGTH_SHORT).show()
 
                     // Redirigir a SignInActivity al registrarse exitosamente
                     startActivity(Intent(this@RegisterActivity, SignInActivity::class.java))
                     finish() // Finalizar la actividad actual
                 } else {
-                    Log.d("RegisterActivity", "Error en el registro: ${response.code()}")
-                    Toast.makeText(this@RegisterActivity, "Error en el registro, intenta de nuevo", Toast.LENGTH_SHORT).show()
+                    Log.d("RegisterActivity", "Error al registre: ${response.code()}")
+                    Toast.makeText(this@RegisterActivity, "Error al registre, intenta de nou", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.e("RegisterActivity", "Fallo en la conexión: ${t.message}")
-                Toast.makeText(this@RegisterActivity, "Fallo en la conexión: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("RegisterActivity", "Error de xarxa: ${t.message}")
+                Toast.makeText(this@RegisterActivity, "Error de xarxa: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

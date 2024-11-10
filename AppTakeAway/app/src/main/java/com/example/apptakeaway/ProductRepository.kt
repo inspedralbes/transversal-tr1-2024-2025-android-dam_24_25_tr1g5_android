@@ -31,7 +31,7 @@ class ProductRepository {
             }
 
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-                onError("Error de red: ${t.message}") // Llama a onError con el mensaje de error de la red
+                onError("Error de xarxa: ${t.message}") // Llama a onError con el mensaje de error de la red
             }
         })
     }

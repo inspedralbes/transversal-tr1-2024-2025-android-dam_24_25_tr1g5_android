@@ -34,7 +34,7 @@ class PayAdapter(private val payItems: List<CartItem>) : RecyclerView.Adapter<Pa
             .into(holder.productImageView)
 
         // Asegúrate de que 'quantity' exista en 'cartItem' y asígnalo al TextView
-        holder.productTextQuantity.text = "Cantidad: ${cartItem.quantity}"
+        holder.productTextQuantity.text = "Quantitat: ${cartItem.quantity}"
     }
 
     override fun getItemCount(): Int = payItems.size

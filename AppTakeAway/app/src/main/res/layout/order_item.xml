@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="Orden #123 - Total: $59.99"
+                android:text="Comanda #123 \nTotal: $59.99"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="4dp"
-                android:text="Estado: Pendiente"
+                android:text="Estat: Pendent"
                 android:textColor="#FF5722"
                 android:textSize="14sp" />
 
@@ -50,7 +50,7 @@
             android:paddingTop="6dp"
             android:paddingEnd="12dp"
             android:paddingBottom="6dp"
-            android:text="Ver Detalles"
+            android:text="Veure detalls"
             android:textColor="#007BFF"
             android:textSize="14sp" />
     </LinearLayout>

@@ -50,7 +50,7 @@ class ProductAdapter(
         }
 
         submitList(updatedProducts)
-        Log.d("SocketEvent", "Productos actualizados: $updatedProducts")
+        Log.d("SocketEvent", "Productes actualitzats: $updatedProducts")
     }
 
     fun getOnProductsListener(): Emitter.Listener = onProducts

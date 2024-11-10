@@ -87,12 +87,12 @@ class PayActivity : AppCompatActivity() {
 
     private fun updateTotalPrice(payItems: List<CartItem>) {
         val total = payItems.sumOf { it.product.price * it.quantity }
-        textPriceTotal.text = String.format("$%.2f", total)
+        textPriceTotal.text = String.format("%.2f€", total)
     }
 
     private fun updateTotalProducts(payItems: List<CartItem>) {
         val totalProducts = payItems.sumOf { it.quantity }
-        totalProductsText.text = "My cart ($totalProducts)"
+        totalProductsText.text = "El meu cistell ($totalProducts)"
     }
 
     private fun setupBackButton() {
@@ -128,7 +128,7 @@ class PayActivity : AppCompatActivity() {
             if (payItems.isNotEmpty()) {
                 processPayment(payItems)
             } else {
-                Toast.makeText(this, "No hay productos seleccionados para pagar.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No hi ha productes seleccionats per pagar.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -137,15 +137,15 @@ class PayActivity : AppCompatActivity() {
         val orderRepository = OrderRepository()
 
         orderRepository.placeOrder(orderRequest, onSuccess = {
-            Toast.makeText(this, "Pedido realizado con éxito. ID del pedido: ${it.orderId}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Comanda realitzada amb èxit. ID de la comanda: ${it.orderId}", Toast.LENGTH_SHORT).show()
         }, onError = { errorMessage ->
-            Toast.makeText(this, "Error al realizar el pedido: $errorMessage", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error en fer la comanda: $errorMessage", Toast.LENGTH_SHORT).show()
         })
     }
 
     private fun processPayment(payItems: List<CartItem>) {
         if (!creditCardRadioButton.isChecked && !payInShopRadioButton.isChecked) {
-            Toast.makeText(this, "Por favor selecciona una opción de pago.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Si us plau selecciona una opció de pagament.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -182,15 +182,15 @@ class PayActivity : AppCompatActivity() {
     private fun processPayInShop(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Lógica para el pago en tienda
         AlertDialog.Builder(this)
-            .setTitle("Confirmar pago en tienda")
-            .setMessage("¿Confirmas que deseas pagar en la tienda por ${payItems.size} productos?")
+            .setTitle("Confirmar pagament a la botiga")
+            .setMessage("Confirmes que vols pagar a la botiga per ${payItems.size} productes?")
             .setPositiveButton("Sí") { _, _ ->
                 sendOrderToServer(orderRequest)
                 // Elimina los ítems del carrito después de confirmar el pago en tienda
                 for (item in payItems) {
                     cartViewModel.removeFromCart(item)
                 }
-                Toast.makeText(this, "Pago en tienda confirmado.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Pagament a la botiga confirmat.", Toast.LENGTH_SHORT).show()
                 finish() // Finaliza la actividad después de confirmar
             }
             .setNegativeButton("No", null)
@@ -201,8 +201,8 @@ class PayActivity : AppCompatActivity() {
 
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
-            .setTitle("Añadir tarjeta de crédito")
-            .setPositiveButton("Añadir") { _, _ ->
+            .setTitle("Afegir targeta de crèdit")
+            .setPositiveButton("Afegir") { _, _ ->
                 val cardNumber = dialogView.findViewById<EditText>(R.id.cardNumberEditText).text.toString()
                 val cardHolder = dialogView.findViewById<EditText>(R.id.cardHolderNameEditText).text.toString()
                 val expiryDate = dialogView.findViewById<EditText>(R.id.expiryDateEditText).text.toString()
@@ -219,13 +219,13 @@ class PayActivity : AppCompatActivity() {
                     creditCardRepository.addCreditCard(creditCard, {
                         // Lógica en caso de éxito
                         processCreditCardPayment(payItems, orderRequest)
-                        Toast.makeText(this, "Tarjeta añadida y pago exitoso.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Targeta afegida i pagament exitós.", Toast.LENGTH_SHORT).show()
                     }, { errorMessage ->
                         // Manejo de errores
                         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                     })
                 } else {
-                    Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Si us plau, completa tots els camps.", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancelar", null)
@@ -247,15 +247,15 @@ class PayActivity : AppCompatActivity() {
     private fun processCreditCardPayment(payItems: List<CartItem>, orderRequest: OrderRequest) {
         // Lógica para el pago con tarjeta de crédito
         AlertDialog.Builder(this)
-            .setTitle("Confirmar pago con tarjeta")
-            .setMessage("¿Confirmas el pago con tarjeta por ${payItems.size} productos?")
+            .setTitle("Confirmar pagament amb targeta")
+            .setMessage("Confirmes el pagament amb targeta per ${payItems.size} productes?")
             .setPositiveButton("Sí") { _, _ ->
                 sendOrderToServer(orderRequest)
                 // Elimina los ítems del carrito después del pago con tarjeta
                 for (item in payItems) {
                     cartViewModel.removeFromCart(item)
                 }
-                Toast.makeText(this, "Pago con tarjeta exitoso.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Pagament amb targeta reeixit.", Toast.LENGTH_SHORT).show()
                 finish() // Finaliza la actividad después de confirmar
             }
             .setNegativeButton("No", null)

@@ -30,7 +30,7 @@ class CreditCardRepository {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                onError("Error de red: ${t.message}") // Maneja el error de red
+                onError("Error de xarxa: ${t.message}") // Maneja el error de red
             }
         })
     }

@@ -36,18 +36,18 @@ class ProductViewModel : ViewModel() {
                     response.body()?.let { productList ->
                         _products.value = productList // Actualiza LiveData con los productos obtenidos
                     } ?: run { // Manejo del caso donde la respuesta es nula
-                        Log.e("ProductViewModel", "La respuesta es nula")
+                        Log.e("ProductViewModel", "La resposta es nula")
                         _products.value = emptyList() // Inicializa la lista de productos como vacía
                     }
                 } else { // Manejo de errores de respuesta
-                    Log.e("ProductViewModel", "Error en la respuesta: ${response.code()} - ${response.message()}")
+                    Log.e("ProductViewModel", "Error en la resposta: ${response.code()} - ${response.message()}")
                     _products.value = emptyList() // Inicializa la lista de productos como vacía
                 }
             }
 
             // Manejo de fallos en la llamada a la API
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-                Log.e("ProductViewModel", "Error de red: ${t.message}") // Registra el error de red
+                Log.e("ProductViewModel", "Error de xarxa: ${t.message}") // Registra el error de red
                 _products.value = emptyList() // Inicializa la lista de productos como vacía
             }
         })
