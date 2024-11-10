@@ -26,14 +26,14 @@ class OrderRepository {
                 if (response.isSuccessful) {
                     response.body()?.let { orderResponse ->
                         onSuccess(orderResponse) // Llama a onSuccess con la respuesta
-                    } ?: onError("Respuesta vacía del servidor")
+                    } ?: onError("Resposta vuida del servidor")
                 } else {
                     onError("Error: ${response.code()}") // Maneja el error
                 }
             }
 
             override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
-                onError("Error de red: ${t.message}") // Maneja el error de red
+                onError("Error de xarxa: ${t.message}") // Maneja el error de red
             }
         })
     }

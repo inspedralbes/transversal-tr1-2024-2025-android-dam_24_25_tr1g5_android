@@ -39,7 +39,7 @@ class SignInActivity : AppCompatActivity() {
             val password = passwordInput.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Por favor ingresa correo y contraseña", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Si us plau introduïu correu i contrasenya", Toast.LENGTH_SHORT).show()
             } else {
                 Log.e(password, "hashpassowrd")
                 loginUser(email, password)
@@ -65,7 +65,7 @@ class SignInActivity : AppCompatActivity() {
                     val user = response.body()!!
                     Toast.makeText(
                         this@SignInActivity,
-                        "Inicio de sesión exitoso",
+                        "Inici de sessió reeixit",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -83,7 +83,7 @@ class SignInActivity : AppCompatActivity() {
                     finish()
 
                 } else {
-                    Toast.makeText(this@SignInActivity, "Usuario no encontrado", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@SignInActivity, "Usuari no trobat", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -91,10 +91,10 @@ class SignInActivity : AppCompatActivity() {
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(
                     this@SignInActivity,
-                    "Error de red: ${t.message}",
+                    "Error de xarxa: ${t.message}",
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.e("SignInActivity", "Error de red", t)
+                Log.e("SignInActivity", "Error de xarxa", t)
             }
         })
     }

@@ -102,19 +102,19 @@ class CartActivity : AppCompatActivity() {
             val hasSelectedItems = cartItems.any { it.isSelected }
             payButton.isEnabled = hasSelectedItems
             payButton.alpha = if (hasSelectedItems) 1.0f else 0.5f
-            payButton.text = if (hasSelectedItems) "PAY" else "PAY"
+            payButton.text = if (hasSelectedItems) "PAGA" else "PAGA"
         }
     }
 
     private fun updateTotal() {
         val total = cartViewModel.getCartTotal()
-        totalTextView.text = String.format("Total: $%.2f", total)
+        totalTextView.text = String.format("Total: %.2f€", total)
     }
 
     private fun showRemoveItemDialog(item: CartItem) {
         AlertDialog.Builder(this)
-            .setTitle("Eliminar producto")
-            .setMessage("¿Estás seguro de que deseas eliminar ${item.product.name} del carrito?")
+            .setTitle("Eliminar producte")
+            .setMessage("Estàs segur que vols eliminar ${item.product.name} del cistella?")
             .setPositiveButton("Sí") { _, _ ->
                 cartViewModel.removeFromCart(item)
             }

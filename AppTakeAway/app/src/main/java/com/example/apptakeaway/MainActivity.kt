@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
         // Realizar acciones basadas en si el usuario ha iniciado sesión
         if (!isLoggedIn) {
-            Toast.makeText(this, "No has iniciado sesión. Accediendo como invitado.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No heu iniciat sessió. Accedint com a convidat.", Toast.LENGTH_SHORT).show()
             // Aquí puedes implementar cualquier otra lógica que necesites para usuarios no autenticados.
         }
     }
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
     // Listener para el evento "products"
     private val onProducts = Emitter.Listener { args ->
         val data = args[0] as String
-        Log.d("SocketEvent", "Actualización de productos: $data")
+        Log.d("SocketEvent", "Actualització de productes: $data")
         // Aquí puedes manejar los datos y actualizar la UI
         val gson = Gson()
         val listType = object : TypeToken<List<Product>>() {}.type
@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
                 }
                 // Dentro del listener de opciones del popup para pedidos
                 R.id.pedidos -> {
-                    Toast.makeText(this, "Pedidos seleccionada", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Comandes seleccionada", Toast.LENGTH_SHORT).show()
                     // Iniciar OrderActivity con el userId
                     val intent = Intent(this, OrderActivity::class.java)
                     intent.putExtra("userId", user.id) // Usa "userId" como clave aquí también
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
                 R.id.logout -> {
                     // Lógica para cerrar sesión
-                    Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Sessió tancada", Toast.LENGTH_SHORT).show()
                     // Aquí puedes limpiar los datos del usuario
                     clearUserData()
                     // Redirigir a la actividad de inicio de sesión o a la actividad principal
@@ -213,7 +213,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         // Inicializa el adaptador de productos
         productAdapter = ProductAdapter { product ->
             cartViewModel.addToCart(product) // Añade el producto al carrito
-            Log.d("MainActivity", "Producto añadido al carrito: ${product.name}") // Log de depuración
+            Log.d("MainActivity", "Producte afegit a la cistella: ${product.name}") // Log de depuración
             Toast.makeText(this, "${product.name} añadido al carrito", Toast.LENGTH_SHORT).show() // Mensaje al usuario
         }
 
@@ -245,20 +245,20 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
             if (products.isNotEmpty()) {
                 productAdapter.submitList(products) // Actualiza el adaptador con la lista de productos
-                Log.d("MainActivity", "Productos cargados: ${products.size}") // Log de depuración
+                Log.d("MainActivity", "Productes carregats: ${products.size}") // Log de depuración
             } else {
-                Toast.makeText(this, "No se encontraron productos", Toast.LENGTH_SHORT).show() // Mensaje si no hay productos
-                Log.d("MainActivity", "No se encontraron productos") // Log de depuración
+                Toast.makeText(this, "No s'han trobat productes", Toast.LENGTH_SHORT).show() // Mensaje si no hay productos
+                Log.d("MainActivity", "No s'han trobat productes") // Log de depuración
             }
         }
 }
     private fun updateProducts(products:List<Product>) {
         if (products.isNotEmpty()) {
             productAdapter.submitList(products) // Actualiza el adaptador con la lista de productos
-            Log.d("MainActivity", "Productos cargados: ${products.size}") // Log de depuración
+            Log.d("MainActivity", "Productes carregats: ${products.size}") // Log de depuración
         } else {
-            Toast.makeText(this, "No se encontraron productos", Toast.LENGTH_SHORT).show() // Mensaje si no hay productos
-            Log.d("MainActivity", "No se encontraron productos") // Log de depuración
+            Toast.makeText(this, "No s'han trobat productes", Toast.LENGTH_SHORT).show() // Mensaje si no hay productos
+            Log.d("MainActivity", "No s'han trobat productes") // Log de depuración
         }
     }
 
@@ -269,7 +269,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
         // Establece un listener para manejar el clic en el botón
         cartButton.setOnClickListener {
-            Log.d("MainActivity", "Navegando a CartActivity") // Log de depuración
+            Log.d("MainActivity", "Navegant a CartActivity") // Log de depuración
 
             // Crea el Intent para CartActivity y pasa el userId
             val intent = Intent(this, CartActivity::class.java)
@@ -286,14 +286,14 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
     private fun observeCart() {
         cartViewModel.cartItems.observe(this) { cartItems -> // Observa el LiveData de items en el carrito
             updateCartBadge(cartItems.sumOf { it.quantity }) // Actualiza la insignia del carrito con el conteo de items
-            Log.d("MainActivity", "Carrito actualizado: ${cartItems.size} items") // Log de depuración
+            Log.d("MainActivity", "Cistella actualitzada: ${cartItems.size} items") // Log de depuración
         }
     }
 
     // Método para observar cambios en payItems
     private fun observePayItems() {
         cartViewModel.payItems.observe(this) { payItems ->
-            Log.d("MainActivity", "PayItems actualizados: ${payItems.size} items") // Log de depuración
+            Log.d("MainActivity", "PayItems actualitzada: ${payItems.size} items") // Log de depuración
         }
     }
 
@@ -310,7 +310,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         }
 
         // Log de depuración para verificar los cambios
-        Log.d("MainActivity", "Carrito actualizado con $itemCount items")
+        Log.d("MainActivity", "Cistella actualitzada amb $itemCount items")
     }
 
 }

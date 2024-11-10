@@ -28,8 +28,8 @@ class OrderAdapter(private var orders: List<Order>) : RecyclerView.Adapter<Order
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
-        holder.orderTextView.text = "Orden #${order.id} - Total: $${order.total}"
-        holder.orderStatus.text = "Estado: ${order.status}"
+        holder.orderTextView.text = "Comanda #${order.id} \nTotal: $${order.total}"
+        holder.orderStatus.text = "Estat: ${order.status}"
 
         // Configuración de OrderLines...
         val orderLineAdapter = OrderLineAdapter(order.orderLines)
@@ -40,10 +40,10 @@ class OrderAdapter(private var orders: List<Order>) : RecyclerView.Adapter<Order
         holder.toggleButton.setOnClickListener {
             if (holder.orderLinesRecyclerView.visibility == View.GONE) {
                 holder.orderLinesRecyclerView.visibility = View.VISIBLE
-                holder.toggleButton.text = "Ocultar Detalles"
+                holder.toggleButton.text = "Amagar Detalls"
             } else {
                 holder.orderLinesRecyclerView.visibility = View.GONE
-                holder.toggleButton.text = "Ver Detalles"
+                holder.toggleButton.text = "Veure detalls"
             }
         }
     }

@@ -22,7 +22,7 @@
         android:id="@+id/emailInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
+        android:hint="Correu electrònic"
         android:inputType="textEmailAddress" />
 
     <!-- Campo de entrada para la contraseña -->
@@ -30,7 +30,7 @@
         android:id="@+id/passwordInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contraseña"
+        android:hint="Contrasenya"
         android:inputType="textPassword" />
 
     <!-- Botón para iniciar sesión -->
@@ -38,7 +38,7 @@
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Iniciar sesión"
+        android:text="Iniciar sessió"
         android:layout_marginTop="16dp" />
 
     <!-- Texto que redirige al registro -->
@@ -46,7 +46,7 @@
         android:id="@+id/registerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿No tienes una cuenta? Regístrate aquí"
+        android:text="No tens un compte? Registra't aquí"
         android:textColor="@android:color/holo_blue_dark"
         android:layout_marginTop="16dp"
         android:clickable="true"
