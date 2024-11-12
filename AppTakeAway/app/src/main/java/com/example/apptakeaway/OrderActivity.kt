@@ -39,7 +39,7 @@ class OrderActivity : AppCompatActivity() {
         ordersRecyclerView.layoutManager = LinearLayoutManager(this)
 
         socket.connect()
-        socket.on("orders", updateOrders)
+        socket.on("ordersAndroid", updateOrders)
 
         // Recuperar el userId
         val userId = intent.getIntExtra("userId", -1)
@@ -115,7 +115,7 @@ class OrderActivity : AppCompatActivity() {
         super.onDestroy()
 
         // Desconectar los listeners para evitar fugas de memoria
-        socket.off("products", updateOrders)
+        socket.off("ordersAndroid", updateOrders)
 
         // Desconectar del socket cuando la actividad se destruye
         socket.disconnect()
