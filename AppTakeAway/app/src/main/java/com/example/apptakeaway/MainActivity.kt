@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
         socket.connect()
 
         // Escuchar eventos: orders y products
-        socket.on("products", onProducts)
+        socket.on("productsAndroid", onProducts)
 
 
 
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() { // Clase principal de la actividad
 
         // Desconectar los listeners para evitar fugas de memoria
 
-        socket.off("products", onProducts)
+        socket.off("productsAndroid", onProducts)
 
         // Desconectar del socket cuando la actividad se destruye
         socket.disconnect()
